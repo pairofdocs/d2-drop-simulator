@@ -15,7 +15,8 @@ root.geometry('640x480')
 
 # function to display loot
 def clicked():
-    # drop loot taking into account /players setting (txt.get() below)
+    # TODO: drop loot taking into account /players setting (txt.get() below)
+    # TODO: account for MF
     loot_list = []
     andy_str = 'Andarielq (H)'
     
@@ -23,7 +24,7 @@ def clicked():
         loot_list.append(name_from_armo_weap_misc(final_roll_from_tc(andy_str)))
     loot_str = "\n".join(loot_list)
     
-    lbl2.configure(text = f"players {txt.get()} \nLoot: \n\n{loot_str}")
+    lbl3.configure(text = f"players {txt.get()} \nLoot: \n\n{loot_str}")
 
 
 # button
@@ -33,17 +34,26 @@ btn.grid(column=0, row=0)
 
 
 # players setting
-lbl1 = Label(root, text = "      /players", font=('Segoe UI', 10))
+lbl1 = Label(root, text = "/players", font=('Segoe UI', 10), width=15)
 lbl1.grid(column=1, row=0)
 
 # entry Field
-txt = Entry(root, width=3, font=('Segoe UI', 10))
+txt = Entry(root, width=4, font=('Segoe UI', 10))
 txt.insert(0, "x")
 txt.grid(column=2, row=0)
 
+# TODO: MF settings
+lbl2 = Label(root, text = "+Magic Find", font=('Segoe UI', 10), width=15)
+lbl2.grid(column=1, row=1)
+# entry Field
+txtmf = Entry(root, width=4, font=('Segoe UI', 10))
+txtmf.insert(0, "0")
+txtmf.grid(column=2, row=1)
+
+
 # instructions label and loot output
-lbl2 = Label(root, text = "Ready to Farm? Click 'Run'", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl2.grid(column=3, row=1)
+lbl3 = Label(root, text = "Ready to Farm? Click 'Run'", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+lbl3.grid(column=3, row=2)
 
 
 root.mainloop()

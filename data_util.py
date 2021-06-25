@@ -172,7 +172,7 @@ def name_from_armo_weap_misc(item_str):
 
 # function for dropping quality
 # def drop_uni_set_rare()     'weap60' --> determine name.   Shako.  see if unique, set, rare is selected. and if item can be quality.
-
+#                                              ring, ammy, jewel can be left as Unique (not determined further) for now
 
 ### add Andy image in Catacombs, dark background for the Loot list text
 
