@@ -7,7 +7,7 @@ Hsarus' Iron Fist	Hsarus' Defense	buc	Buckler	7	4	3	dred	dred						5	2500	2	red-
 Hsarus' Iron Stay	Hsarus' Defense	mbl	Belt	7	4	3	dred	dred						5	2500	2	res-cold		20	20	hp		20	20																													ac/lvl	20																																							0
 Cleglaw's Tooth	Cleglaw's Brace	lsd	Long Sword	7	6	4	lred	lred						5	2500	2	att%		30	30	deadly		50	50																													dmg/lvl	10																																							0
 Cleglaw's Claw	Cleglaw's Brace	sml	Small Shield	7	6	4	lred	lred						5	2500	2	ac		17	17	res-pois-len		75	75																													res-all		15	15																																					0
-Cleglaw's Pincers	Cleglaw's Brace	mgl	Chain Gloves	7	6	4	lred	lred						5	2500	2	knock		1	1	slow		25	25																													att/lvl	20																																							0
+Cleglaw's Pincers	Cleglaw's Brace	mgl	Bracers(M)	7	6	4	lred	lred						5	2500	2	knock		1	1	slow		25	25																													att/lvl	20																																							0
 Iratha's Collar	Iratha's Finery	amu	Amulet	7	21	15	lgry	lgry						5	2500	2	res-pois		30	30	res-pois-len		75	75																													res-all		15	15																																					0
 Iratha's Cuff	Iratha's Finery	tgl	Light Gauntlets	7	21	15	lgry	lgry						5	2500	2	res-cold		30	30	half-freeze		1	1																													swing2		20	20																																					0
 Iratha's Coil	Iratha's Finery	crn	Crown	7	21	15	lgry	lgry						5	2500	2	res-fire		30	30	res-ltng		30	30																													ac/lvl	16																																							0
@@ -17,7 +17,7 @@ Isenhart's Parry	Isenhart's Armory	gts	Gothic Shield	7	11	8	lgld	lgld						5	250
 Isenhart's Case	Isenhart's Armory	brs	Breast Plate	7	11	8	lgld	lgld						5	2500	2	ac		40	40	red-mag		2	2																													ac/lvl	16																																							0
 Isenhart's Horns	Isenhart's Armory	fhl	Full Helm	7	11	8	lgld	lgld						5	2500	2	dex		6	6	red-dmg		2	2																													res-all		8	8																																					0
 Vidala's Barb	Vidala's Rig	lbb	Long Battle Bow	7	19	14	blac	blac						5	2500	2	ltng-min		1	1	ltng-max		20	20																													att/lvl	16																																							0
-Vidala's Fetlock	Vidala's Rig	tbt	Light Plated Boots	7	19	14	blac	blac						5	2500	2	stam		150	150	move3		30	30																													res-all		8	8																																					0
+Vidala's Fetlock	Vidala's Rig	tbt	Light Plate Boots	7	19	14	blac	blac						5	2500	2	stam		150	150	move3		30	30																													res-all		8	8																																					0
 Vidala's Ambush	Vidala's Rig	lea	Leather Armor	7	19	14	blac	blac						5	2500	2	ac		50	50	dex		11	11																													res-fire		24	24					ac/lvl	20																															0
 Vidala's Snare	Vidala's Rig	amu	Amulet	7	19	14	blac	blac						5	2500	2	hp		15	15	res-cold		20	20																													mag%		50	50																																					0
 Milabrega's Orb	Milabrega's Regalia	kit	Kite Shield	7	23	17	dblu	dblu						5	2500	2	mag%		20	20	ac		25	25																													hp		50	50					ac%		50	50																													0
@@ -31,14 +31,14 @@ Cathan's Sigil	Cathan's Traps	amu	Amulet	7	15	11	dgrn	dgrn						5	2500	2	balance
 Cathan's Seal	Cathan's Traps	rin	Ring	7	15	11	dgrn	dgrn						5	2500	2	lifesteal		6	6	red-dmg		2	2																													str		10	10																																					0
 Tancred's Crowbill	Tancred's Battlegear	mpi	Military Pick	7	27	20	dgld	dgld						5	2500	2	att		75	75	dmg%		80	80																													mana		20	20					swing2		20	20																													0
 Tancred's Spine	Tancred's Battlegear	ful	Full Plate Mail	7	27	20	dgld	dgld						5	2500	2	hp		40	40	str		15	15																													ac/lvl	16																																							0
-Tancred's Hobnails	Tancred's Battlegear	lbt	Boots	7	27	20	dgld	dgld						5	2500	2	regen-stam		25	25	dex		10	10																													move3		30	30					str		10	10																													0
+Tancred's Hobnails	Tancred's Battlegear	lbt	Leather Boots	7	27	20	dgld	dgld						5	2500	2	regen-stam		25	25	dex		10	10																													move3		30	30					str		10	10																													0
 Tancred's Weird	Tancred's Battlegear	amu	Amulet	7	27	20	dgld	dgld						5	2500	2	red-dmg		2	2	red-mag		1	1																													mag%		78	78					att		60	60																													0
 Tancred's Skull	Tancred's Battlegear	bhm	Bone Helm	7	27	20	dgld	dgld						5	2500	2	dmg%		10	10	att		40	40																													res-all		10	10																																					0
 Sigon's Gage	Sigon's Complete Steel	hgl	Gauntlets	7	9	6	whit	whit						5	2500	2	str		10	10	att		20	20																													swing3		30	30																																					0
 Sigon's Visor	Sigon's Complete Steel	ghm	Great Helm	7	9	6	whit	whit						5	2500	2	mana		30	30	ac		25	25																													att/lvl	16																																							0
 Sigon's Shelter	Sigon's Complete Steel	gth	Gothic Plate	7	9	6	whit	whit						5	2500	2	ac%		25	25	res-ltng		30	30																													thorns		20	20																																					0
-Sigon's Sabot	Sigon's Complete Steel	hbt	Greaves	7	9	6	whit	whit						5	2500	2	move2		20	20	res-cold		40	40																													att		50	50					mag%		50	50																													0
-Sigon's Wrap	Sigon's Complete Steel	hbl	Plated Belt	7	9	6	whit	whit						5	2500	2	res-fire		20	20	hp		20	20																													ac/lvl	16																																							0
+Sigon's Sabot	Sigon's Complete Steel	hbt	Plate Boots	7	9	6	whit	whit						5	2500	2	move2		20	20	res-cold		40	40																													att		50	50					mag%		50	50																													0
+Sigon's Wrap	Sigon's Complete Steel	hbl	Girdle(H)	7	9	6	whit	whit						5	2500	2	res-fire		20	20	hp		20	20																													ac/lvl	16																																							0
 Sigon's Guard	Sigon's Complete Steel	tow	Tower Shield	7	9	6	whit	whit						5	2500	2	allskills		1	1	block		20	20																																																																					0
 Infernal Cranium	Infernal Tools	cap	Cap	7	7	5	lyel	lyel						5	2500	2	res-all		10	10	dmg-to-mana		20	20																													ac/lvl	16																																							0
 Infernal Torch	Infernal Tools	gwn	Grim Wand	7	7	5	lyel	lyel						5	2500	2	dmg-min		8	8	nec		1	1																													att/lvl	20																																							0
@@ -46,10 +46,10 @@ Infernal Sign	Infernal Tools	tbl	Heavy Belt	7	7	5	lyel	lyel						5	2500	2	ac		25
 Berserker's Headgear	Berserker's Garb	hlm	Helm	7	5	3	dred	dred						5	2500	2	ac		15	15	res-fire		25	25																													att/lvl	16																																							0
 Berserker's Hauberk	Berserker's Garb	spl	Splint Mail	7	5	3	dred	dred						5	2500	2	red-mag		2	2	bar		1	1																													ac/lvl	24																																							0
 Berserker's Hatchet	Berserker's Garb	2ax	Double Axe	7	5	3	dred	dred						5	2500	2	att%		30	30	manasteal		5	5																													dmg%		50	50																																					0
-Death's Hand	Death's Disguise	lgl	Leather Gloves	7	8	6	lred	lred						5	2500	2	res-pois		50	50	res-pois-len		75	75																													swing3		30	30																																					0
+Death's Hand	Death's Disguise	lgl	Gloves(L)	7	8	6	lred	lred						5	2500	2	res-pois		50	50	res-pois-len		75	75																													swing3		30	30																																					0
 Death's Guard	Death's Disguise	lbl	Sash	7	8	6	lred	lred						5	2500	2	ac		20	20	nofreeze		1	1																													res-all		15	15																																					0
 Death's Touch	Death's Disguise	wsd	War Sword	7	8	6	lred	lred						5	2500	2	dmg%		25	25	lifesteal		4	4																													dmg-cold	75	25	75																																					0
-Angelic Sickle	Angelical Raiment	sbr	Sabre	7	17	12	lgry	lgry						5	2500	2	att		75	75	dmg-undead		250	250																													dmg%		75	75					swing3		30	30																													0
+Angelic Sickle	Angelical Raiment	sbr	Saber	7	17	12	lgry	lgry						5	2500	2	att		75	75	dmg-undead		250	250																													dmg%		75	75					swing3		30	30																													0
 Angelic Mantle	Angelical Raiment	rng	Ring Mail	7	17	12	lgry	lgry						5	2500	2	red-dmg		3	3	ac%		40	40																													ac		150	150					res-fire		50	50																													0
 Angelic Halo	Angelical Raiment	rin	Ring	3	17	12	lgry	lgry						5	2500	2	regen		6	6	hp		20	20																													att/lvl	24							mag%		50	50																													0
 Angelic Wings	Angelical Raiment	amu	Amulet	7	17	12	lgry	lgry						5	2500	2	light		3	3	dmg-to-mana		20	20																													hp		75	75					allskills		1	1																													0
@@ -79,7 +79,7 @@ Immortal King's Stone Crusher	Immortal King	7m7	Ogre Maul	7	37	76	lgry	lgry					
 Tal Rasha's Fire-Spun Cloth	Tal Rasha's Wrappings	zmb	Mesh Belt	7	26	53	dpur	dpur						5	5000	2	ease		-20	-20	mana		30	30	dex		20	20	dmg-to-mana		37	37	mag%		10	15																	ac		60	60					cast2		10	10																													0
 Tal Rasha's Adjudication	Tal Rasha's Wrappings	amu	Amulet	1	26	67	dpur	dpur						5	5000	2	res-ltng		33	33	sor		2	2	hp		50	50	dmg-ltng		3	32	mana		42	42																																	cast2		10	10																					0
 Tal Rasha's Lidless Eye	Tal Rasha's Wrappings	oba	Swirling Crystal	7	26	65	dpur	dpur						5	5000	2	hp		57	57	mana		77	77	enr		10	10	cast3		20	20	skill	Fire Mastery	1	2	skill	Lightning Mastery	1	2	skill	Cold Mastery	1	2									sor		1	1					pierce-fire		15	15					pierce-ltng		15	15					extra-cold		15	15													0
-Tal Rasha's Howling Wind	Tal Rasha's Wrappings	uth	Lacquered Plate	7	26	71	dpur	dpur						5	5000	2	ease		-60	-60	red-mag		15	15	mag%		88	88	res-cold		40	40	res-fire		40	40	res-ltng		40	40	ac		400	400									cast2		10	10																																					0
+Tal Rasha's Guardianship	Tal Rasha's Wrappings	uth	Lacquered Plate	7	26	71	dpur	dpur						5	5000	2	ease		-60	-60	red-mag		15	15	mag%		88	88	res-cold		40	40	res-fire		40	40	res-ltng		40	40	ac		400	400									cast2		10	10																																					0
 Tal Rasha's Horadric Crest	Tal Rasha's Wrappings	xsk	Death Mask	7	26	66	dpur	dpur						5	5000		mana		30	30	hp		60	60	ac		45	45	res-all		15	15	lifesteal		10	10	manasteal		10	10																																																					0
 Griswold's Valor	Griswold's Legacy	urn	Corona	7	44	69	dgld	dgld						5	5000	2	ac%		50	75	abs-cold/lvl		2	2	sock		2	2	ease		-40	-40	mag%		20	30	res-all		5	5													skilltab	10	2	2																																					0
 Griswold's Heart	Griswold's Legacy	xar	Ornate Plate	7	44	45	dgld	dgld						5	5000		ac		500	500	skilltab	11	2	2	sock		3	3	str		20	20	ease		-40	-40																																																									0

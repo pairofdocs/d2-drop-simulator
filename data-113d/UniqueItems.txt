@@ -70,7 +70,7 @@ Leadcrow	0	1		1		12	9	lxb	Light Crossbow			5	5000	dyel			invlxbu				dex		10	10	h
 Ichorsting	0	1		1		24	18	mxb	Crossbow			5	5000	lgld			invmxbu				dmg-pois	75	102	102	dex		20	20	pierce		50	50	att		50	50	dmg%		50	50	swing2		20	20																									0
 Hellcast	0	1		1		36	27	hxb	Heavy Crossbow			5	5000	dgld			invhxbu				explosivearrow		5	5	res-fire-max		15	15	res-fire		15	15	att		70	70	swing2		20	20	dmg%		70	80	dmg-fire		15	35																					0
 Doomslinger	0	1		1		38	28	rxb	Repeating Crossbow			5	5000	lpur			invrxbu				ama		1	1	pierce		35	35	swing3		30	30	hp		15	15	dmg%		60	100																													0
-War Bonnet	0	1		1		4	3	cap	Cap			5	5000	dpur			invcapu				hp		15	15	att		30	30	dmg%		30	30	mana		15	15	ac		14	14																													0
+Biggins Bonnet	0	1		1		4	3	cap	Cap			5	5000	dpur			invcapu				hp		15	15	att		30	30	dmg%		30	30	mana		15	15	ac		14	14																													0
 Tarnhelm	0	1		1		20	15	skp	Skull Cap			5	5000	oran	oran						gold%		75	75	mag%		25	50	allskills		1	1																																					0
 Coif of Glory	0	1		1		19	14	hlm	Helm			5	5000	whit			invhlmu				light-thorns		7	7	stupidity		1	1	res-ltng		15	15	ac-miss		100	100	ac		10	10																													0
 Duskdeep	0	1		1		23	17	fhl	Full Helm			5	5000	lgry			invfhlu				light		-2	-2	res-all		15	15	red-dmg		7	7	dmg-max		8	8	ac		10	20	ac%		30	50																									0
