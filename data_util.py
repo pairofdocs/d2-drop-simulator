@@ -104,7 +104,7 @@ load_csv_to_list(filepath, SETS)
 
 # debuggin with breakpoints -v'  I can see local vars in the function ~~~
 
-def one_roll_from_tc(tc_name_str):
+def one_roll_from_tc(tc_name_str, players_str):
     """
     Return a random selection (based on Item Probs) from a row (Treasureclass)
     one_roll_from_tc('Andarielq (H)')
@@ -112,28 +112,43 @@ def one_roll_from_tc(tc_name_str):
     """
     rowdict = TCDICT[tc_name_str]
     items, probs = [], []
+
+    try:
+        players_int = int(players_str)
+        if players_int < 1:
+            players_int = 1
+        elif players_int > 8:
+            players_int = 8
+    except:
+        players_int = 1
+    # no drop exponent.  /players 1 or 2 -> nd_exp 1,   3 or 4 -> nd_exp 2,    5 or 6 -> nd_exp 3,     7 or 8 -> nd_exp 4
+    nd_exp = int(float(players_int)/2.0 + 0.5)
+    
     for k,v in rowdict.items():
         if k.startswith("Item") and v:
             # add item to item list and probability to prob list
             items.append(v)
             probs.append(int(rowdict[f'Prob{len(items)}']))
+    if rowdict['NoDrop']:
+        nodrop_orig = int(rowdict['NoDrop'])
+        sumprobs = sum(probs)
+        probs_and_nd = nodrop_orig + sumprobs
+        nodrop_final = (((nodrop_orig/probs_and_nd)**nd_exp)/(1-(nodrop_orig/probs_and_nd)**nd_exp))*sumprobs + 0.01
+        
+        items, probs = items + [''], probs + [int(nodrop_final)]
 
     # choice from a list with weighted probability
     outcome = random.choices(items, weights=probs, k=1)[0]
     
     return outcome
-### TODO: take into account NoDrop and playersX.  probs will be different
 
 
-# andy_str = 'Andarielq (H)'
-# one_roll_from_tc(andy_str)
-
-def final_roll_from_tc(tc_name_str):
+def final_roll_from_tc(tc_name_str, players_str):
     """
     weap18, weap48, armo60, armo6, weap12, amu, armo36   ~~~ drops work!  
     """
-    while tc_name_str in TCDICT:
-        tc_name_str = one_roll_from_tc(tc_name_str)
+    while tc_name_str and tc_name_str in TCDICT:
+        tc_name_str = one_roll_from_tc(tc_name_str, players_str)
     return tc_name_str
 
 
@@ -361,14 +376,7 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
 ### check for set amulet if rarity logic is working
 
 
-
-
-# this can be combined with above. factor should be changed, SetMin, and uni_col too
-# def check_set()
-    
-    
-    
-    
+ 
 
 
 

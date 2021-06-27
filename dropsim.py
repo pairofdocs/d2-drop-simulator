@@ -7,7 +7,7 @@ from data_util import final_roll_from_tc, name_from_armo_weap_misc
 root = Tk()
 
 # root window title and dimension
-root.title("Andariel (H) Drop Simulator")   # can use quest drop
+root.title("Andariel (H) Quest Drop Simulator")   # can use quest drop
 # width, height
 root.geometry('640x480')
 
@@ -15,19 +15,27 @@ root.geometry('640x480')
 
 # function to display loot
 def clicked():
-    # TODO: drop loot taking into account /players setting (txt.get() below)
-    # TODO: account for MF   txtmf.get()
     print('\n')
-    loot_list = []
     andy_str = 'Andarielq (H)'
+    players_str = txt.get()
     mf_str = txtmf.get()
+    drops = [] # 6 items at most.  7 picks from andariel
     
     lbl3.configure(text = "Loot:")
+    # clean all previous drops
+    for i in range(6):
+        eval(f"lbl{i+5}.configure(text = '', fg = '#f5f5f5')")
 
-    for i in range(5):
-        # loot_list.append(name_from_armo_weap_misc(final_roll_from_tc(andy_str)))
-        loot_item = name_from_armo_weap_misc(final_roll_from_tc(andy_str), mf_str)
-        
+    for i in range(7):
+        if len(drops) == 6:
+            break
+        loot_item = final_roll_from_tc(andy_str, players_str)   # output is '' if NoDrop
+        if loot_item:
+            loot_item = name_from_armo_weap_misc(loot_item, mf_str)
+            drops.append(loot_item)
+
+
+    for i,loot_item in enumerate(drops):
         if "uni~" in loot_item:
             if "failed uni~" in loot_item:
                 if 'potion' in loot_item.lower():
@@ -69,6 +77,11 @@ def clicked():
         eval(f"lbl{i+5}.configure(text = loot_str)")
 
 
+# background image
+bckgrd_image = PhotoImage(file="./img/andy-d2r-resize.png")
+bckgrd_label = Label(root, image=bckgrd_image)
+bckgrd_label.place(x=0, y=33, relwidth=1, relheight=1)
+
 
 # button
 btn = Button(root, text = "Run" , fg = "red", command=clicked, font=('Segoe UI', 10))
@@ -82,7 +95,7 @@ lbl1.grid(column=1, row=0)
 
 # entry Field
 txt = Entry(root, width=4, font=('Segoe UI', 10))
-txt.insert(0, "x")
+txt.insert(0, "1")
 txt.grid(column=2, row=0)
 
 # TODO: MF settings
@@ -95,26 +108,26 @@ txtmf.grid(column=2, row=1)
 
 
 # instructions label and loot output
-lbl3 = Label(root, text = "Ready to Farm? Click 'Run'", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl3.grid(column=3, row=2)
+lbl3 = Label(root, text = "Ready to Farm? Click 'Run'", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+lbl3.place(x=340, y=130+23)
 
 # rows for loot drops. 6 loot rows total
-lbl4 = Label(root, text = "", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl4.grid(column=3, row=3)
-lbl5 = Label(root, text = "", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl5.grid(column=3, row=4)
-lbl6 = Label(root, text = "", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl6.grid(column=3, row=5)
-lbl7 = Label(root, text = "", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl7.grid(column=3, row=6)
-lbl8 = Label(root, text = "", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl8.grid(column=3, row=7)
-lbl9 = Label(root, text = "", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl9.grid(column=3, row=8)
-lbl10 = Label(root, text = "", width=50, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl10.grid(column=3, row=9)
+# lbl4 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+# lbl4.place(x=340, y=130+23)
+lbl5 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+lbl5.place(x=340, y=130+23+23)
+lbl6 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+lbl6.place(x=340, y=130+23+23+23)
+lbl7 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+lbl7.place(x=340, y=130+23+23+23+23)
+lbl8 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+lbl8.place(x=340, y=130+23+23+23+23+23)
+lbl9 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+lbl9.place(x=340, y=130+23+23+23+23+23+23)
+lbl10 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
+lbl10.place(x=340, y=130+23+23+23+23+23+23+23)
 
-
+# root.pack()
 root.mainloop()
 
 ### get items from TC first, then determine quality (unique, set, rare, magic)
@@ -131,3 +144,4 @@ root.mainloop()
 # https://d2mods.info/forum/kb/viewarticle?a=368
 # https://d2mods.info/forum/kb/viewarticle?a=2
 # https://d2mods.info/forum/kb/viewarticle?a=320
+# https://www.purediablo.com/forums/threads/item-generation-tutorial.110/
