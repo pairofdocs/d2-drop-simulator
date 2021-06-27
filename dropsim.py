@@ -141,6 +141,7 @@ lbl10.place(x=340, y=130+23+23+23+23+23+23+23)
 # root.pack()
 root.mainloop()
 
+### TODO: check droplist if a unique base already dropped, if so then append failed unique
 
 ### Possible TODO: 'run X times'
 # 100 andy runs with one click. then see the Loot!
