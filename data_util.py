@@ -19,9 +19,6 @@ with open(filepath, 'r') as csv_file:
         # the key-value contains 'Treasure Class' redundantly.  row = {'Treasure Class': '', 'group': '', ... }
         TCDICT[row['Treasure Class']] = row
         
-# TCDICT['Andarielq (H)']
-# TCDICT['Andarielq (H)']['Picks']
-# TCDICT['Andarielq (H)']['NoDrop']
 
 # read armor csv into dictionary
 filepath = "data-113d/armor.txt"
@@ -68,7 +65,6 @@ with open(filepath, 'r') as csv_file:
 #   'code': 'gsg'
 
 
-
 # read itemtypes csv into dictionary
 filepath = "data-113d/ItemTypes.txt"
 with open(filepath, 'r') as csv_file:
@@ -98,11 +94,6 @@ load_csv_to_list(filepath, UNIQUES)
 filepath = "data-113d/SetItems.txt"
 load_csv_to_list(filepath, SETS)
 
-
-# # choice from a list with weighted probability
-# random.choices(items, weights=probs, k=1)[0]
-
-# debuggin with breakpoints -v'  I can see local vars in the function ~~~
 
 def one_roll_from_tc(tc_name_str, players_str):
     """
@@ -179,8 +170,6 @@ def roll_from_armo_weap_lvl(item_str):
 
     return items[outcomeidx], levels[outcomeidx], types[outcomeidx]
 
-# TODO: when determining unique, set, rare, use the item code and lookup unique/set names  (# follow 'code', 'namestr', and 'name' columns)
-
 
 def name_from_misc(item_str):
     out_name = "not found"
@@ -190,7 +179,6 @@ def name_from_misc(item_str):
             level = row['level']
     
     return out_name, level
-
 
 
 def name_from_armo_weap_misc(item_str, mf_str):
@@ -218,29 +206,19 @@ def name_from_armo_weap_misc(item_str, mf_str):
         # misc.txt has lvl>0 for ring, amu, charm, rune.  do not check uniques of gems, runes, ...
         if level and int(level) > 0 and "rune" not in out_name.lower():
             out_name, success = check_uni_or_set(out_name, level, False, mf_str, 'uni')
-            ## TODO: charms are eigher gheeds or magic(blue)
-            
+                        
             # print(out_name, 'success', success)
             if not success: 
                 print(out_name, 'uni check failed. checking set')
                 out_name, success = check_uni_or_set(out_name, level, False, mf_str, 'set')
                 print(out_name, 'set check    >>>>>>>>>: ', success)
 
-                ############ NEXT:     (for rings, amu, jewel, charm)
                 # return rare quality
                 name_lower = out_name.lower()
                 if not success and ("jewel" in name_lower or "ring" in name_lower or "amulet" in name_lower or "charm" in name_lower):
                     out_name = 'rare~ ' + out_name
     
     return out_name
-
-
-### Read in misc.txt.  assemble dict  'code' --> 'name'
-
-# andy_str = 'Andarielq (H)'
-# out = final_roll_from_tc(andy_str)
-# name_from_armo_weap_misc(out)    # 'Twin Axe', 'Ring', 'Hard Leather Armor'
-
 
 
 def is_class_specific(type_str):
@@ -341,7 +319,6 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
     possible_items = []
     probs = []
 
-    ### TODO: charms should be magic if not gheeds
     if "charm large" in name_str.lower():
         name_str = "charm"     # shows up as "Charm" in blue when other charms appear as "Charm large"
         
@@ -372,43 +349,5 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
 
     return outname
 
-### TODO:                
-### check for set amulet if rarity logic is working
-
-
- 
-
-
-
-
-### NEXT
-# loop for 7 trials with NoDrop.  if 6 items are dropped. end
-
-# replacing the code in dropsim.py
-# for i in range(5):
-#     loot_list.append(name_from_armo_weap_misc(final_roll_from_tc(andy_str)))
-
 
 ### NEXT   (itemratio.txt, monstats needed for ilvl. andy can have fixed ilvl)
-# Add text color for uniques, sets, rare, magic
-# for each drop, have to specify the color 'fg' foreground.
-# add Label() with row +1 in dropsim tkinter app
-
-# function for dropping quality
-# def drop_uni_set_rare()     'weap60' --> determine name.   Shako.  see if unique, set, rare is selected. and if item can be quality.
-#                                              ring, ammy, jewel can be left as Unique (not determined further) for now
-
-### add Andy image in Catacombs, dark background for the Loot list text
-
-
-
-
-
-
-# https://courses.cs.washington.edu/courses/cse140/13wi/csv-parsing.html        
-# The keys are the names of the columns (from the first row of the file, which is skipped over)
-
-
-# Andarielq (H)
-
-# load in treasureclassex.txt     maybe read csv?  would be nice to access columns by name  (convert to python table?)
