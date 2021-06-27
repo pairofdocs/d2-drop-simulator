@@ -329,7 +329,7 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
         namecol = '*item'
         prefix = "set~ "
     for row in quallist:
-        # remove (H), (M), (L) from gauntlets, gloves, belt
+        # remove (H), (M), (L) from gauntlets, gloves, belt.   Careful with the .split('(')  if unique/set items have '(' this fails. I fixed the item names. removed "(" from uni,set
         if row[namecol].lower().replace(' ','').replace("'","").replace("’","") == name_str.lower().split('(')[0].replace(' ', '').replace("'","").replace("’",""):
             # print(row[namecol], row['lvl'])
 

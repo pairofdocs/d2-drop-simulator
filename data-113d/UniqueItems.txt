@@ -59,7 +59,7 @@ Lazarus Spire	0	1		1		24	18	cst	Gnarled Staff			5	5000	lgry			invcstu				res-ltn
 The Salamander	0	1		1		28	21	bst	Battle Staff			5	5000	dred	dred						dmg-fire		15	32	res-fire		30	30	skill	51	1	1	skill	47	2	2	skill	37	3	3	fireskill		2	2																									0
 The Iron Jang Bong	0	1		1		38	28	wst	War Staff			5	5000	dyel	dyel						ac		30	30	cast3		20	20	dmg%		100	100	att%		50	50	skill	48	2	2	skill	46	2	2	skill	44	3	3	sor		2	2																	0
 Pluckeye	0	1		1		10	7	sbw	Short Bow			5	5000	cblu	cblu						att		28	28	dmg%		100	100	hp		10	10	light		2	2	manasteal		3	3	mana-kill		2	2																									0
-Witherstring	0	1		1		18	13	hbw	Hunter’s Bow			5	5000	lred	lred						swing3		30	30	dmg-min		1	1	dmg-max		3	3	att		50	50	magicarrow		3	3	dmg%		40	50																									0
+Witherstring	0	1		1		18	13	hbw	Hunter's Bow			5	5000	lred	lred						swing3		30	30	dmg-min		1	1	dmg-max		3	3	att		50	50	magicarrow		3	3	dmg%		40	50																									0
 Raven Claw	0	1		1		20	15	lbw	Long Bow			5	5000	dred	dred						att%		50	50	dex		3	3	explosivearrow		3	3	str		3	3	dmg%		60	70																													0
 Rogue's Bow	0	1		1		27	20	cbw	Composite Bow			5	5000	cred			invcbwu				res-all		10	10	deadly		30	30	att		60	60	dmg-undead		100	100	dmg%		40	60	swing2		50	50																									0
 Stormstrike	0	1		1		34	25	sbb	Short Battle Bow			5	5000	lgrn			invsbbu				dmg-ltng		1	30	str		8	8	att		28	28	pierce		25	25	res-ltng		25	25	dmg%		70	90																									0
@@ -229,7 +229,7 @@ Mosers Blessed Circle	100	1		1		39	31	xml	Round Shield			3	5000				invxmlu				re
 Stormchaser	100	1		1		43	35	xrg	Scutum			3	5000	cblu	cblu		invxrgu				dmg-ltng		1	60	block		20	20	half-freeze		1	1	res-ltng		50	50	att		150	150	ac%		160	220	block2		10	10	gethit-skill	59	4	6	gethit-skill	245	4	5													0
 Tiamat's Rebuke	100	1		1		46	38	xit	Dragon Shield			3	5000	lgry	lgry		invkitu				dmg-cold	150	27	53	dmg-fire		35	95	dmg-ltng		1	120	res-all		25	35	ac%		140	200	gethit-skill	44	5	9	gethit-skill	48	5	7	gethit-skill	62	3	6	dur		40	40													0
 Gerke's Sanctuary	100	1		1		52	44	xow	Pavise			3	5000	lgrn	lgrn		invtowu				red-dmg		11	16	red-mag		14	18	regen		15	15	ac%		180	240	dur		100	100	block		30	30	res-all		20	30																					0
-Radimant's Sphere	100	1		1		58	50	xts	Ancient Shield			3	5000				invgtsu				dmg-pois	100	204	204	gethit-skill	92	5	5	res-pois		75	75	ac%		160	200	block		20	20	block2		20	20	charged	83	40	6	dur		20	20																	0
+Radament's Sphere	100	1		1		58	50	xts	Ancient Shield			3	5000				invgtsu				dmg-pois	100	204	204	gethit-skill	92	5	5	res-pois		75	75	ac%		160	200	block		20	20	block2		20	20	charged	83	40	6	dur		20	20																	0
 Lidless Wall	100	1		1		49	41	xsh	Grim Shield			3	5000	dgld	dgld		invxshu				light		1	1	allskills		1	1	cast2		20	20	mana-kill		3	5	ac%		80	130	enr		10	10	mana%		10	10																					0
 Lance Guard	100	1		1		43	35	xpk	Barbed Shield			3	5000				invxpku				hp		50	50	balance2		30	30	dmg-to-mana		15	15	thorns		47	47	ac%		70	120	deadly		20	20																									0
 Venom Grip	100	1		1		37	29	xlg	Demonhide Gloves			5	5000	dgrn							res-pois		30	30	res-pois-max		5	5	dmg-pois	100	153	153	crush		5	5	lifesteal		5	5	ac		15	25	ac%		130	160																					0

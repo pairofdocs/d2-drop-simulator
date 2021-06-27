@@ -17,6 +17,7 @@ Vampgaze, Duriels, Skullders?
 - Andy NM and other bosses (Duri, Meph, Diablo, Baal)
 - Enable/disable check for same unique per run
 - Ethereal status
+- Input random seed
 
 
 ### Credits and Tools
