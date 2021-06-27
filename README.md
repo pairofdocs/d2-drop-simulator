@@ -15,6 +15,8 @@ Vampgaze, Duriels, Skullders?
 
 ### Todos
 - Andy NM and other bosses (Duri, Meph, Diablo, Baal)
+- Enable/disable check for same unique per run
+- Ethereal status
 
 
 ### Credits and Tools
