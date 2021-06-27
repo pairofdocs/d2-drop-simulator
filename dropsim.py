@@ -1,6 +1,12 @@
+
+import logging
+
 from tkinter import *
 
 from data_util import final_roll_from_tc, name_from_armo_weap_misc
+
+# log drops to file
+logging.basicConfig(filename='session.txt', filemode='w', format='%(message)s', level=logging.INFO)
 
 
 # root window
@@ -11,9 +17,14 @@ root.title("Andariel (H) Quest Drop Simulator")   # can use quest drop
 # width, height
 root.geometry('640x480')
 
+
 # function to display loot
+num_runs = 0
 def clicked():
-    print('\n')
+    global num_runs
+    num_runs += 1
+    logging.info(f"{num_runs})")
+
     andy_str = 'Andarielq (H)'
     players_str = txt.get()
     mf_str = txtmf.get()
@@ -44,6 +55,7 @@ def clicked():
                         eval(f"lbl{i+5}.configure(text = loot_item.replace('failed uni~ ',''), fg = '#8f82ff')")    # undo rare color for charm
             else:
                 eval(f"lbl{i+5}.configure(text = loot_item.replace('uni~ ',''), fg = '#ba8106')")  # unique
+                logging.info(f"{loot_item}")
 
         elif "set~" in loot_item:
             if "failed set~" in loot_item:
@@ -53,6 +65,7 @@ def clicked():
                     eval(f"lbl{i+5}.configure(text = loot_item.replace('failed set~ ',''), fg = '#8f82ff')")  # magic/blue
             else:
                 eval(f"lbl{i+5}.configure(text = loot_item.replace('set~ ',''), fg = '#33d61a')")   # green
+                logging.info(f"{loot_item}")
         
         elif "rare~" in loot_item:
             if 'potion' in loot_item.lower():
@@ -71,9 +84,9 @@ def clicked():
         # final str fixes
         exec(f"loot_str = lbl{i+5}.cget('text')")
         exec('loot_str = loot_str.replace("Charm Large", "Grand Charm").replace("Charm Medium", "Large Charm").replace("Charm Small", "Small Charm")')
-        exec('if "charm" in loot_str.lower(): print("**************************charm", loot_str)')
+        # exec('if "charm" in loot_str.lower(): print("**************************charm", loot_str)')
         eval(f"lbl{i+5}.configure(text = loot_str)")
-
+    logging.info(" ")
 
 # background image
 bckgrd_image = PhotoImage(file="./img/andy-d2r-resize.png")

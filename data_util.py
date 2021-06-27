@@ -192,9 +192,9 @@ def name_from_armo_weap_misc(item_str, mf_str):
         out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mf_str, 'uni')
         
         if not success: 
-            print(out_name, 'uni check failed. checking set')
+            # print(out_name, 'uni check failed. checking set')
             out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mf_str, 'set')
-            print(out_name, 'set check    >>>>>>>>>: ', success)
+            # print(out_name, 'set check    >>>>>>>>>: ', success)
 
             # return rare quality
             if not success:
@@ -209,9 +209,7 @@ def name_from_armo_weap_misc(item_str, mf_str):
                         
             # print(out_name, 'success', success)
             if not success: 
-                print(out_name, 'uni check failed. checking set')
                 out_name, success = check_uni_or_set(out_name, level, False, mf_str, 'set')
-                print(out_name, 'set check    >>>>>>>>>: ', success)
 
                 # return rare quality
                 name_lower = out_name.lower()
@@ -287,7 +285,7 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mf_str='0', qual_type='
     # uni_col = int(TCDICT['Andarielq (H)']['Unique'])     # Andy TC hard coded here
     chance = chance - (chance*qual_col/1024)
 
-    if random.randrange(0, int(chance)) < 128:
+    if random.randrange(0, max(int(chance),1)) < 128:
         roll_success = True
         # either unique or failed unique. (and set/ failed set)
         ### TODO: charms either gheeds or magic(blue)
@@ -333,7 +331,7 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
     for row in quallist:
         # remove (H), (M), (L) from gauntlets, gloves, belt
         if row[namecol].lower().replace(' ','').replace("'","").replace("’","") == name_str.lower().split('(')[0].replace(' ', '').replace("'","").replace("’",""):
-            print(row[namecol], row['lvl'])
+            # print(row[namecol], row['lvl'])
 
             if row['lvl'] and int(row['lvl']) > 0 and int(row['lvl']) <= ilvl:
                 if not 'cow king' in row['index'].lower():
