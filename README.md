@@ -1,10 +1,12 @@
-## Diablo 2 / D2R Andy Quest Drop Simulator
+## Diablo 2 / D2R Boss Quest Drop Simulator
 
 The code is open source and available [here](https://github.com/pairofdocs/d2-drop-simulator/blob/master/dropsim.py)  
 The app is: `dropsim.exe`  
 To play, download the zip [here](https://github.com/pairofdocs/d2-drop-simulator/archive/refs/heads/master.zip) and double click `dropsim.exe` to start
 
 ![App window](./img/andyq_drop_bckgrd.jpg)
+
+![App window with diablo](./img/diabq_drop_bckgrd.jpg)
 
 Each session's drops are logged to a file `session.txt`  
 ![session.txt drop log](./img/350runs_shako.jpg)
@@ -14,7 +16,7 @@ Vampgaze, Duriels, Skullders?
 
 
 ### Todos
-- Other bosses (Duri, Meph, Diablo, Baal)
+- Add Baal
 - Enable/disable check for same unique per run
 - Ethereal status
 - Input random seed
@@ -37,6 +39,7 @@ All trademarks referenced here are the properties of their respective owners.
 
 For the sake of convenience some text files and image files that the drop simulator requires are provided in this repository.
 These files are part of the Diablo II game series and are copyrighted by Blizzard Entertainment.
-They are provided only to save you the trouble of extracting them from the Diablo II game files.
+They are provided only to save you the trouble of extracting them from the Diablo II game files.  
+Promotional [material](https://youtu.be/DttPBtsZ5fc?t=87) from Blizzard Entertainment was used for background images in the drop simulator.
 
 This project and its maintainers are not associated with or endorsed by Blizzard Entertainment, Inc. 
