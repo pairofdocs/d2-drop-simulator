@@ -7,6 +7,7 @@ ARMORDICT = {}
 WEAPDICT = {}
 MISCDICT = {}
 ITEMTYPESDICT = {}
+MONSTATSDICT = {}
 ITEMRATIO = []
 UNIQUES = []
 SETS = []
@@ -41,7 +42,6 @@ filepath = "data-113d/weapons.txt"
 with open(filepath, 'r') as csv_file:
     csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
     for row in csv_reader:
-        # the key-value contains 'name' redundantly.  row = {'name': 'Cap/hat', 'version': '0', ... }
         WEAPDICT[row['name']] = row
 
 # WEAPDICT['War Staff']
@@ -57,7 +57,6 @@ filepath = "data-113d/misc.txt"
 with open(filepath, 'r') as csv_file:
     csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
     for row in csv_reader:
-        # the key-value contains 'name' redundantly.  row = {'name': 'Cap/hat', 'version': '0', ... }
         MISCDICT[row['name']] = row
 
 # MISCDICT['Emerald']
@@ -70,8 +69,15 @@ filepath = "data-113d/ItemTypes.txt"
 with open(filepath, 'r') as csv_file:
     csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
     for row in csv_reader:
-        # the key-value contains 'name' redundantly.  row = {'name': 'Cap/hat', 'version': '0', ... }
         ITEMTYPESDICT[row['ItemType']] = row
+
+
+# read monstats csv into dictionary
+filepath = "data-113d/monstats.txt"
+with open(filepath, 'r') as csv_file:
+    csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
+    for row in csv_reader:
+        MONSTATSDICT[row['Id']] = row
 
 
 def load_csv_to_list(path_in, list_in):
@@ -181,19 +187,29 @@ def name_from_misc(item_str):
     return out_name, level
 
 
-def name_from_armo_weap_misc(item_str, mf_str):
+def get_mlvl(mon_str):
+    mon_name = mon_str.split(' (')[0].lower()
+    mon_diffi = ('(' + mon_str.split(' (')[1]) if '(' in mon_str else ''  # '', '(N)', '(H)'
+    mon_name = mon_name[0:-1] if mon_name.endswith('q') else mon_name
+    mlvl = int(MONSTATSDICT[mon_name]['Level'+mon_diffi])
+
+    return mlvl
+
+
+def name_from_armo_weap_misc(item_str, mf_str, mon_str):
     """
-    return an item name given armoX, weapX, or a misc. item string
+    return an item name given armoX, weapX, or a misc. item string. mon_str ~ 'Andarielq (H)'
     """
     type_str = item_str[0:4]
+    mlvl = get_mlvl(mon_str)
     if type_str in ['armo', 'weap']:
         out_name, level, itemtype = roll_from_armo_weap_lvl(item_str)
         # check for quality. unique, set, rare, magic.   out_name 'uni~ Balanced Knife'
-        out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mf_str, 'uni')
+        out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mf_str, 'uni')
         
         if not success: 
             # print(out_name, 'uni check failed. checking set')
-            out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mf_str, 'set')
+            out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mf_str, 'set')
             # print(out_name, 'set check    >>>>>>>>>: ', success)
 
             # return rare quality
@@ -205,11 +221,11 @@ def name_from_armo_weap_misc(item_str, mf_str):
         out_name, level = name_from_misc(item_str)
         # misc.txt has lvl>0 for ring, amu, charm, rune.  do not check uniques of gems, runes, ...
         if level and int(level) > 0 and "rune" not in out_name.lower():
-            out_name, success = check_uni_or_set(out_name, level, False, mf_str, 'uni')
+            out_name, success = check_uni_or_set(out_name, level, False, mlvl, mf_str, 'uni')
                         
             # print(out_name, 'success', success)
             if not success: 
-                out_name, success = check_uni_or_set(out_name, level, False, mf_str, 'set')
+                out_name, success = check_uni_or_set(out_name, level, False, mlvl, mf_str, 'set')
 
                 # return rare quality
                 name_lower = out_name.lower()
@@ -231,7 +247,7 @@ def is_class_specific(type_str):
     return out
 
 
-def check_uni_or_set(name_str, level_str, is_class_spec, mf_str='0', qual_type='uni'):
+def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mf_str='0', qual_type='uni'):
     """
     inputs ~ ('Balanced Knife', '13', False -- for 'tkni')
     normal vs elite check isn't needed for Andy. uni,set,rare,magic have same values (rows 4 and 5 in itemratio.txt)
@@ -240,14 +256,14 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mf_str='0', qual_type='
     roll_success = False
     # mon lvl looks in monstats.txt.  monstats['andariel']['LevelH'].  The TC name can be looked up here too
     # monlvl = TCDICT['Andarielq (H)']['level']  
-    ilvl = 75  # monlvl  # hard coded for now
+    # ilvl = 75  # monlvl  # hard coded for now
     qlvl = int(level_str)  # level column in armor/weapon.txt.  quality lvl of base item
     if is_class_spec:
         row = ITEMRATIO[4]    # 'Unique': '240'
     else:
         row = ITEMRATIO[2]    # 'Unique': '400'
 
-    # (BaseChance - ((ilvl-qlvl)/Divisor)) * 128    https://www.purediablo.com/forums/threads/item-generation-tutorial.110/
+    # (BaseChance - ((mlvl_int-qlvl)/Divisor)) * 128    https://www.purediablo.com/forums/threads/item-generation-tutorial.110/
     # this is not a 'probability', more like a 'chance number'
     if qual_type == 'uni':
         qual = int(row['Unique']) 
@@ -270,7 +286,7 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mf_str='0', qual_type='
         qual_col = int(TCDICT['Andarielq (H)']['Rare'])     # Andy TC hard coded here
         factor = 600
 
-    chance = (qual - ((ilvl-qlvl)/qual_divisor)) * 128
+    chance = (qual - ((mlvl_int-qlvl)/qual_divisor)) * 128
     # take abs() of mf if the input can be parsed to an int
     try: 
         mf = abs(int(mf_str))
@@ -289,7 +305,7 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mf_str='0', qual_type='
         roll_success = True
         # either unique or failed unique. (and set/ failed set)
         ### TODO: charms either gheeds or magic(blue)
-        out_str = check_if_qlvl_works(name_str, ilvl, qual_type)
+        out_str = check_if_qlvl_works(name_str, mlvl_int, qual_type)
     else:
         out_str = name_str
     
@@ -298,7 +314,7 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mf_str='0', qual_type='
 
 def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
     """
-    check for unique/set item's qlvl <= the monster lvl
+    check for unique/set item's qlvl <= the monster lvl (ilvl)
     pick unique with probability according to it's rarity
     check_if_qlvl_works('spiderweb sash', 75)  -->  'failed uni/set'
     NOTE: crystal sword 'Azurewrath' can be output. this function doesn't check the 'enabled' col
@@ -346,6 +362,3 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
         outname = 'failed ' + prefix + name_str     # this should be rare or magic (for failed sets)
 
     return outname
-
-
-### NEXT   (itemratio.txt, monstats needed for ilvl. andy can have fixed ilvl)

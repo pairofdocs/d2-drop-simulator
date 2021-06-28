@@ -27,7 +27,7 @@ def clicked():
     num_runs += 1
     logging.info(f"{num_runs})")
 
-    andy_str = 'Andarielq' + DIFFICULTIES[diffi.get()]
+    mon_str = 'Andarielq' + DIFFICULTIES[diffi.get()]
     players_str = txt.get()
     mf_str = txtmf.get()
     drops = [] # 6 items at most.  7 picks from andariel
@@ -40,9 +40,9 @@ def clicked():
     for i in range(7):
         if len(drops) == 6:
             break
-        loot_item = final_roll_from_tc(andy_str, players_str)   # output is '' if NoDrop
+        loot_item = final_roll_from_tc(mon_str, players_str)   # output is '' if NoDrop
         if loot_item:
-            loot_item = name_from_armo_weap_misc(loot_item, mf_str)
+            loot_item = name_from_armo_weap_misc(loot_item, mf_str, mon_str)
             drops.append(loot_item)
 
 
@@ -153,17 +153,7 @@ loot_labels = [lbl5, lbl6, lbl7, lbl8, lbl9, lbl10]
 
 root.mainloop()
 
-### TODO: check droplist if a unique base already dropped, if so then append failed unique
 
 ### Possible TODO: 'run X times'
 # 100 andy runs with one click. then see the Loot!
 # add a scroll window. how would i add colored text?
-
-
-### Credits
-# https://www.geeksforgeeks.org/create-first-gui-application-using-python-tkinter/
-# https://www.geeksforgeeks.org/how-to-change-the-tkinter-label-font-size/
-# https://d2mods.info/forum/kb/viewarticle?a=368
-# https://d2mods.info/forum/kb/viewarticle?a=2
-# https://d2mods.info/forum/kb/viewarticle?a=320
-# https://www.purediablo.com/forums/threads/item-generation-tutorial.110/

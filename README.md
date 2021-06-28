@@ -14,10 +14,11 @@ Vampgaze, Duriels, Skullders?
 
 
 ### Todos
-- Andy NM and other bosses (Duri, Meph, Diablo, Baal)
+- Other bosses (Duri, Meph, Diablo, Baal)
 - Enable/disable check for same unique per run
 - Ethereal status
 - Input random seed
+- Drop sounds toggle on/off
 
 
 ### Credits and Tools
