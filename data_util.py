@@ -189,6 +189,8 @@ def name_from_misc(item_str):
 
 def get_mlvl(mon_str):
     mon_name = mon_str.split(' (')[0].lower()
+    if mon_name[0:4] == 'baal':
+        mon_name = 'baalcrab'
     mon_diffi = ('(' + mon_str.split(' (')[1]) if '(' in mon_str else ''  # '', '(N)', '(H)'
     mon_name = mon_name[0:-1] if mon_name.endswith('q') else mon_name
     mlvl = int(MONSTATSDICT[mon_name]['Level'+mon_diffi])
