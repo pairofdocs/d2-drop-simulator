@@ -9,11 +9,13 @@ from data_util import final_roll_from_tc, name_from_armo_weap_misc
 logging.basicConfig(filename='session.txt', filemode='w', format='%(message)s', level=logging.INFO)
 
 
+DIFFICULTIES = {'Normal': '', 'Nightmare': ' (N)', 'Hell': ' (H)'}
+
 # root window
 root = Tk()
 
 # root window title and dimension
-root.title("Andariel (H) Quest Drop Simulator")   # can use quest drop
+root.title("Andariel Quest Drop Simulator")
 # width, height
 root.geometry('640x480')
 
@@ -25,7 +27,7 @@ def clicked():
     num_runs += 1
     logging.info(f"{num_runs})")
 
-    andy_str = 'Andarielq (H)'
+    andy_str = 'Andarielq' + DIFFICULTIES[diffi.get()]
     players_str = txt.get()
     mf_str = txtmf.get()
     drops = [] # 6 items at most.  7 picks from andariel
@@ -33,7 +35,7 @@ def clicked():
     lbl3.configure(text = "Loot:")
     # clean all previous drops
     for i in range(6):
-        eval(f"lbl{i+5}.configure(text = '', fg = '#f5f5f5')")
+        loot_labels[i].configure(text = '', fg = '#f5f5f5')
 
     for i in range(7):
         if len(drops) == 6:
@@ -47,51 +49,51 @@ def clicked():
     for i,loot_item in enumerate(drops):
         if "uni~" in loot_item:
             if "failed uni~" in loot_item:
-                if 'potion' in loot_item.lower():
-                    eval(f"lbl{i+5}.configure(text = loot_item.replace('failed uni~ ',''), fg = '#f5f5f5')")  # default gray
+                if 'potion' in loot_item.lower(): #loot_labels
+                    loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#f5f5f5')  # default gray
                 else:
-                    eval(f"lbl{i+5}.configure(text = loot_item.replace('failed uni~ ',''), fg = '#ebe134')")  # rare/yellow
+                    loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#ebe134')  # rare/yellow
                     if "charm" in loot_item.lower():
-                        eval(f"lbl{i+5}.configure(text = loot_item.replace('failed uni~ ',''), fg = '#8f82ff')")    # undo rare color for charm
+                        loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#8f82ff')    # undo rare color for charm
             else:
-                eval(f"lbl{i+5}.configure(text = loot_item.replace('uni~ ',''), fg = '#ba8106')")  # unique
+                loot_labels[i].configure(text = loot_item.replace('uni~ ',''), fg = '#ba8106')  # unique
                 logging.info(f"{loot_item}")
 
         elif "set~" in loot_item:
             if "failed set~" in loot_item:
                 if 'potion' in loot_item.lower():
-                    eval(f"lbl{i+5}.configure(text = loot_item.replace('failed set~ ',''), fg = '#f5f5f5')")  # default gray
+                    loot_labels[i].configure(text = loot_item.replace('failed set~ ',''), fg = '#f5f5f5')  # default gray
                 else:
-                    eval(f"lbl{i+5}.configure(text = loot_item.replace('failed set~ ',''), fg = '#8f82ff')")  # magic/blue
+                    loot_labels[i].configure(text = loot_item.replace('failed set~ ',''), fg = '#8f82ff')  # magic/blue
             else:
-                eval(f"lbl{i+5}.configure(text = loot_item.replace('set~ ',''), fg = '#33d61a')")   # green
+                loot_labels[i].configure(text = loot_item.replace('set~ ',''), fg = '#33d61a')   # green
                 logging.info(f"{loot_item}")
         
         elif "rare~" in loot_item:
             if 'potion' in loot_item.lower():
-                eval(f"lbl{i+5}.configure(text = loot_item.replace('rare~ ',''), fg = '#f5f5f5')")  # default gray
+                loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#f5f5f5')  # default gray
             else:
-                eval(f"lbl{i+5}.configure(text = loot_item.replace('rare~ ',''), fg = '#ebe134')")  # rare/yellow
+                loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#ebe134')  # rare/yellow
                 if "charm" in loot_item.lower():
-                    eval(f"lbl{i+5}.configure(text = loot_item.replace('rare~ ',''), fg = '#8f82ff')")    # undo rare color for charm
+                    loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#8f82ff')    # undo rare color for charm
 
         elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower()):
-            eval(f"lbl{i+5}.configure(text = loot_item, fg = '#eb721c')")
+            loot_labels[i].configure(text = loot_item, fg = '#eb721c')
         else:
             # reset color
-            eval(f"lbl{i+5}.configure(text = loot_item, fg = '#f5f5f5')")
+            loot_labels[i].configure(text = loot_item, fg = '#f5f5f5')
         
         # final str fixes
-        exec(f"loot_str = lbl{i+5}.cget('text')")
-        exec('loot_str = loot_str.replace("Charm Large", "Grand Charm").replace("Charm Medium", "Large Charm").replace("Charm Small", "Small Charm")')
-        # exec('if "charm" in loot_str.lower(): print("**************************charm", loot_str)')
-        eval(f"lbl{i+5}.configure(text = loot_str)")
+        loot_str = loot_labels[i].cget('text')
+        loot_str = loot_str.replace("Charm Large", "Grand Charm").replace("Charm Medium", "Large Charm").replace("Charm Small", "Small Charm")
+        # if "charm" in loot_str.lower(): print("**************************charm", loot_str)
+        loot_labels[i].configure(text = loot_str)
     logging.info(" ")
 
 # background image
 bckgrd_image = PhotoImage(file="./img/andy-d2r-resize.png")
 bckgrd_label = Label(root, image=bckgrd_image)
-bckgrd_label.place(x=0, y=33, relwidth=1, relheight=1)
+bckgrd_label.place(x=0, y=34, relwidth=1, relheight=1)
 
 
 # button
@@ -109,13 +111,21 @@ txt = Entry(root, width=4, font=('Segoe UI', 10))
 txt.insert(0, "1")
 txt.grid(column=2, row=0)
 
-# TODO: MF settings
+# MF settings
 lbl2 = Label(root, text = "+Magic Find", font=('Segoe UI', 10), width=15)
 lbl2.grid(column=1, row=1)
 # entry Field
 txtmf = Entry(root, width=4, font=('Segoe UI', 10))
 txtmf.insert(0, "0")
 txtmf.grid(column=2, row=1)
+
+# difficulty settings dropdown
+diffi = StringVar(root)
+diffi.set(list(DIFFICULTIES.keys())[2]) # default value
+
+w = OptionMenu(root, diffi, *DIFFICULTIES)
+w.configure(width=10, font=('Segoe UI', 9))
+w.grid(column=3, row=0)
 
 
 # instructions label and loot output
@@ -126,17 +136,19 @@ lbl3.place(x=340, y=130+23)
 # lbl4 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
 # lbl4.place(x=340, y=130+23)
 lbl5 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl5.place(x=340, y=130+23+23)
+lbl5.place(x=340, y=130+23*2)
 lbl6 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl6.place(x=340, y=130+23+23+23)
+lbl6.place(x=340, y=130+23*3)
 lbl7 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl7.place(x=340, y=130+23+23+23+23)
+lbl7.place(x=340, y=130+23*4)
 lbl8 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl8.place(x=340, y=130+23+23+23+23+23)
+lbl8.place(x=340, y=130+23*5)
 lbl9 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl9.place(x=340, y=130+23+23+23+23+23+23)
+lbl9.place(x=340, y=130+23*6)
 lbl10 = Label(root, text = "", width=25, font=('Segoe UI', 10), fg='#f5f5f5', bg='#242020')
-lbl10.place(x=340, y=130+23+23+23+23+23+23+23)
+lbl10.place(x=340, y=130+23*7)
+
+loot_labels = [lbl5, lbl6, lbl7, lbl8, lbl9, lbl10]
 
 
 root.mainloop()
