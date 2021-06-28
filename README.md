@@ -1,10 +1,10 @@
-## Diablo 2 / D2R Andy (H) Quest Drop Simulator
+## Diablo 2 / D2R Andy Quest Drop Simulator
 
 The code is open source and available [here](https://github.com/pairofdocs/d2-drop-simulator/blob/master/dropsim.py)  
 The app is: `dropsim.exe`  
 To play, download the zip [here](https://github.com/pairofdocs/d2-drop-simulator/archive/refs/heads/master.zip) and double click `dropsim.exe` to start
 
-![App window](./img/andyq_5item_drop_bckgrd.jpg)
+![App window](./img/andyq_drop_bckgrd.jpg)
 
 Each session's drops are logged to a file `session.txt`  
 ![session.txt drop log](./img/350runs_shako.jpg)
