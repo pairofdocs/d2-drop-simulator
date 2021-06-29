@@ -265,8 +265,6 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mf_str='0', q
     else:
         row = ITEMRATIO[2]    # 'Unique': '400'
 
-    # (BaseChance - ((mlvl_int-qlvl)/Divisor)) * 128    https://www.purediablo.com/forums/threads/item-generation-tutorial.110/
-    # this is not a 'probability', more like a 'chance number'
     if qual_type == 'uni':
         qual = int(row['Unique']) 
         qual_divisor = int(row['UniqueDivisor'])
@@ -288,6 +286,8 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mf_str='0', q
         qual_col = int(TCDICT['Andarielq (H)']['Rare'])     # Andy TC hard coded here
         factor = 600
 
+    # (BaseChance - ((mlvl_int-qlvl)/Divisor)) * 128    https://www.purediablo.com/forums/threads/item-generation-tutorial.110/
+    # this is not a 'probability', more like a 'chance number'
     chance = (qual - ((mlvl_int-qlvl)/qual_divisor)) * 128
     # take abs() of mf if the input can be parsed to an int
     try: 
