@@ -20,7 +20,12 @@ Vampgaze, Duriels, Skullders?
 - Enable/disable check for same unique per run
 - Ethereal status
 - Input random seed
-- Drop sounds toggle on/off
+
+
+### Drop Sounds
+A button to toggle drop sounds enables/disables playing a sound effect while loot is 'dropped' by a boss.  
+D2 mp3 files from this reddit [thread](https://www.reddit.com/r/pathofexile/comments/9at2tw/d2_sounds_arranged_for_neversinks_filterblade/?utm_source=share&utm_medium=mweb&_branch_match_id=894651600463416745) are included in the `sound/` folder.  
+To use one of these sound files as the app's drop sound, rename the file to `dropsound.mp3`. To use your own drop sound effect, place your mp3 sound file in `sound/` and rename it to `dropsound.mp3`.
 
 
 ### Credits and Tools

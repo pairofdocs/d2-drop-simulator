@@ -2,7 +2,7 @@
 import logging
 
 from tkinter import *
-# from playsound import playsound
+from playsound import playsound
 
 from data_util import final_roll_from_tc, name_from_armo_weap_misc
 
@@ -53,7 +53,6 @@ def run_clicked():
             loot_item = name_from_armo_weap_misc(loot_item, mf_str, mon_str)
             drops.append(loot_item)
 
-
     for i,loot_item in enumerate(drops):
         if "uni~" in loot_item:
             if "failed uni~" in loot_item:
@@ -97,6 +96,11 @@ def run_clicked():
         # if "charm" in loot_str.lower(): print("**************************charm", loot_str)
         loot_labels[i].configure(text = loot_str)
     logging.info(" ")
+
+    # play drop sound
+    if sound_btn.config('relief')[-1] == 'sunken':
+        playsound('./sound/dropsound.mp3', False)
+
 
 # background image
 def draw_bckgrd(boss_str=BOSSES[0]):
@@ -187,6 +191,19 @@ def draw_lootlabels():
     loot_labels = [lbl5, lbl6, lbl7, lbl8, lbl9, lbl10]
 
 draw_lootlabels()
+
+
+# drop sound toggle button. Used above in run_clicked()
+def toggle_sound():
+    if sound_btn.config('relief')[-1] == 'sunken':
+        sound_btn.config(relief="raised", fg='black')
+        sound_btn.config(text="Sound Off")
+    else:
+        sound_btn.config(relief="sunken", fg='#4ac936')  # green
+        sound_btn.config(text="Sound On")
+
+sound_btn = Button(text="Sound Off", width=8, relief="raised", command=toggle_sound)
+sound_btn.grid(column=5, row=0)
 
 
 root.mainloop()
