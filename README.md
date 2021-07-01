@@ -1,4 +1,4 @@
-## Diablo 2 / D2R Boss Quest Drop Simulator
+## Diablo 2 / D2R Boss Quest Drop Simulator ![Pyinstaller workflow](https://github.com/pairofdocs/d2-drop-simulator/actions/workflows/main.yaml/badge.svg)
 
 The drop simulator uses item type, quality generating functions and data files from D2 (TreasureClassEx.txt, ItemRatio.txt, ...) to reproduce the game's random loot drop mechanic.  
 The code is open source and available [here](https://github.com/pairofdocs/d2-drop-simulator/blob/master/dropsim.py)  
