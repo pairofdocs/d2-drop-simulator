@@ -38,6 +38,7 @@ def run_clicked():
     mon_str = boss.get() + 'q' + DIFFICULTIES[diffi.get()]
     players_str = txt.get()
     mf_str = txtmf.get()
+    seed_str = txtseed.get()
     drops = [] # 6 items at most.  7 picks from bosses
     
     lbl3.configure(text = "Loot:")
@@ -48,7 +49,7 @@ def run_clicked():
     for i in range(7):
         if len(drops) == 6:
             break
-        loot_item = final_roll_from_tc(mon_str, players_str)   # output is '' if NoDrop
+        loot_item = final_roll_from_tc(mon_str, players_str, seed_str)   # output is '' if NoDrop
         if loot_item:
             loot_item = name_from_armo_weap_misc(loot_item, mf_str, mon_str)
             drops.append(loot_item)
@@ -204,6 +205,14 @@ def toggle_sound():
 
 sound_btn = Button(text="Sound Off", width=8, relief="raised", command=toggle_sound)
 sound_btn.grid(column=5, row=0)
+
+# random seed setting
+lblseed = Label(root, text = "Seed", font=('Segoe UI', 10), width=7)
+lblseed.grid(column=6, row=0)
+# seed entry Field
+txtseed = Entry(root, width=4, font=('Segoe UI', 10))
+txtseed.insert(0, "")
+txtseed.grid(column=7, row=0)
 
 
 root.mainloop()

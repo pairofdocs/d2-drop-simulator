@@ -11,6 +11,7 @@ MONSTATSDICT = {}
 ITEMRATIO = []
 UNIQUES = []
 SETS = []
+seed_set = False
 
 # read TCX csv into dictionary
 filepath = "data-113d/TreasureClassEx.txt"
@@ -140,12 +141,23 @@ def one_roll_from_tc(tc_name_str, players_str):
     return outcome
 
 
-def final_roll_from_tc(tc_name_str, players_str):
+def final_roll_from_tc(tc_name_str, players_str, seed_str):
     """
     weap18, weap48, armo60, armo6, weap12, amu, armo36   ~~~ drops work!  
     """
+    global seed_set
+    # set random seed if not set already. only set once for duration of app
+    if seed_str and not seed_set:
+        try:
+            seedint = int(seed_str)
+        except:
+            seedint = 666
+        random.seed(seedint)
+        seed_set = True
+    
     while tc_name_str and tc_name_str in TCDICT:
         tc_name_str = one_roll_from_tc(tc_name_str, players_str)
+
     return tc_name_str
 
 
