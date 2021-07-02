@@ -13,23 +13,22 @@ UNIQUES = []
 SETS = []
 seed_set = False
 
+
+def load_csv_to_dict(path_in, dict_in, row_key):
+    with open(path_in, 'r') as csv_file:
+        csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
+        for row in csv_reader:
+            # the key-value contains 'Treasure Class'/row_key redundantly.  row = {'Treasure Class': '', 'group': '', ... }
+            dict_in[row[row_key]] = row
+
+
 # read TCX csv into dictionary
 filepath = "data-113d/TreasureClassEx.txt"
-with open(filepath, 'r') as csv_file:
-    csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
-    for row in csv_reader:
-        # the key-value contains 'Treasure Class' redundantly.  row = {'Treasure Class': '', 'group': '', ... }
-        TCDICT[row['Treasure Class']] = row
-        
+load_csv_to_dict(filepath, TCDICT, 'Treasure Class')
 
 # read armor csv into dictionary
 filepath = "data-113d/armor.txt"
-with open(filepath, 'r') as csv_file:
-    csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
-    for row in csv_reader:
-        # the key-value contains 'name' redundantly.  row = {'name': 'Cap/hat', 'version': '0', ... }
-        ARMORDICT[row['name']] = row
-
+load_csv_to_dict(filepath, ARMORDICT, 'name')
 # ARMORDICT['Cap/hat']
 # {'name': 'Cap/hat',
 #  ...
@@ -37,14 +36,9 @@ with open(filepath, 'r') as csv_file:
 #  ...
 #  'level': '1',
 
-
 # read weapons csv into dictionary
 filepath = "data-113d/weapons.txt"
-with open(filepath, 'r') as csv_file:
-    csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
-    for row in csv_reader:
-        WEAPDICT[row['name']] = row
-
+load_csv_to_dict(filepath, WEAPDICT, 'name')
 # WEAPDICT['War Staff']
 #  {'name': 'War Staff',
 #   'code': 'wst',
@@ -52,33 +46,20 @@ with open(filepath, 'r') as csv_file:
 #   'rarity': '2',
 #   'level': '24'
 
-
 # read misc csv into dictionary
 filepath = "data-113d/misc.txt"
-with open(filepath, 'r') as csv_file:
-    csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
-    for row in csv_reader:
-        MISCDICT[row['name']] = row
-
+load_csv_to_dict(filepath, MISCDICT, 'name')
 # MISCDICT['Emerald']
 #  {'name': 'Emerald',
 #   'code': 'gsg'
 
-
 # read itemtypes csv into dictionary
 filepath = "data-113d/ItemTypes.txt"
-with open(filepath, 'r') as csv_file:
-    csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
-    for row in csv_reader:
-        ITEMTYPESDICT[row['ItemType']] = row
-
+load_csv_to_dict(filepath, ITEMTYPESDICT, 'ItemType')
 
 # read monstats csv into dictionary
 filepath = "data-113d/monstats.txt"
-with open(filepath, 'r') as csv_file:
-    csv_reader = csv.DictReader(csv_file, delimiter='\t', quotechar='"', skipinitialspace=True)
-    for row in csv_reader:
-        MONSTATSDICT[row['Id']] = row
+load_csv_to_dict(filepath, MONSTATSDICT, 'Id')
 
 
 def load_csv_to_list(path_in, list_in):
