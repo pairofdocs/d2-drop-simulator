@@ -29,78 +29,87 @@ root.geometry('640x480')
 
 # function to display loot
 num_runs = 0
+running_once = True
 def run_clicked():
-    global num_runs
-    num_runs += 1
-    logging.info(f"{num_runs})")
+    global num_runs, runx
+
+    # run x times logic. do not play sound if running >1
+    try:
+        xtimes = max(int(runx.get()),1)  # if neg. int, xtimes -> 1
+        running_once = False if xtimes > 1 else True
+    except:
+        xtimes, running_once = 1, True
 
     # boss selected from a dropdown: boss.get().  e.g.  'Andariel'
     mon_str = boss.get() + 'q' + DIFFICULTIES[diffi.get()]
     players_str = txt.get()
     mf_str = txtmf.get()
     seed_str = txtseed.get()
-    drops = [] # 6 items at most.  7 picks from bosses
-    
     lbl3.configure(text = "Loot:")
-    # clean all previous drops
-    for i in range(6):
-        loot_labels[i].configure(text = '', fg = '#f5f5f5')
+        
+    for r in range(xtimes):
+        num_runs += 1
+        logging.info(f"{num_runs})")
+        drops = [] # 6 items at most.  7 picks from bosses
+        # clean all previous drops
+        for i in range(6):
+            loot_labels[i].configure(text = '', fg = '#f5f5f5')
 
-    for i in range(7):
-        if len(drops) == 6:
-            break
-        loot_item = final_roll_from_tc(mon_str, players_str, seed_str)   # output is '' if NoDrop
-        if loot_item:
-            loot_item = name_from_armo_weap_misc(loot_item, mf_str, mon_str)
-            drops.append(loot_item)
+        for i in range(7):
+            if len(drops) == 6:
+                break
+            loot_item = final_roll_from_tc(mon_str, players_str, seed_str)   # output is '' if NoDrop
+            if loot_item:
+                loot_item = name_from_armo_weap_misc(loot_item, mf_str, mon_str)
+                drops.append(loot_item)
 
-    for i,loot_item in enumerate(drops):
-        if "uni~" in loot_item:
-            if "failed uni~" in loot_item:
-                if 'potion' in loot_item.lower(): #loot_labels
-                    loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#f5f5f5')  # default gray
+        for i,loot_item in enumerate(drops):
+            if "uni~" in loot_item:
+                if "failed uni~" in loot_item:
+                    if 'potion' in loot_item.lower(): #loot_labels
+                        loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#f5f5f5')  # default gray
+                    else:
+                        loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#ebe134')  # rare/yellow
+                        if "charm" in loot_item.lower():
+                            loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#8f82ff')    # undo rare color for charm
                 else:
-                    loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#ebe134')  # rare/yellow
-                    if "charm" in loot_item.lower():
-                        loot_labels[i].configure(text = loot_item.replace('failed uni~ ',''), fg = '#8f82ff')    # undo rare color for charm
-            else:
-                loot_labels[i].configure(text = loot_item.replace('uni~ ',''), fg = '#ba8106')  # unique
-                logging.info(f"{loot_item}")
+                    loot_labels[i].configure(text = loot_item.replace('uni~ ',''), fg = '#ba8106')  # unique
+                    logging.info(f"{loot_item}")
 
-        elif "set~" in loot_item:
-            if "failed set~" in loot_item:
+            elif "set~" in loot_item:
+                if "failed set~" in loot_item:
+                    if 'potion' in loot_item.lower():
+                        loot_labels[i].configure(text = loot_item.replace('failed set~ ',''), fg = '#f5f5f5')  # default gray
+                    else:
+                        loot_labels[i].configure(text = loot_item.replace('failed set~ ',''), fg = '#8f82ff')  # magic/blue
+                else:
+                    loot_labels[i].configure(text = loot_item.replace('set~ ',''), fg = '#33d61a')   # green
+                    logging.info(f"{loot_item}")
+            
+            elif "rare~" in loot_item:
                 if 'potion' in loot_item.lower():
-                    loot_labels[i].configure(text = loot_item.replace('failed set~ ',''), fg = '#f5f5f5')  # default gray
+                    loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#f5f5f5')  # default gray
                 else:
-                    loot_labels[i].configure(text = loot_item.replace('failed set~ ',''), fg = '#8f82ff')  # magic/blue
-            else:
-                loot_labels[i].configure(text = loot_item.replace('set~ ',''), fg = '#33d61a')   # green
-                logging.info(f"{loot_item}")
-        
-        elif "rare~" in loot_item:
-            if 'potion' in loot_item.lower():
-                loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#f5f5f5')  # default gray
-            else:
-                loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#ebe134')  # rare/yellow
-                if "charm" in loot_item.lower():
-                    loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#8f82ff')    # undo rare color for charm
+                    loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#ebe134')  # rare/yellow
+                    if "charm" in loot_item.lower():
+                        loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#8f82ff')    # undo rare color for charm
 
-        elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower()):
-            loot_labels[i].configure(text = loot_item, fg = '#eb721c')
-        else:
-            # reset color
-            loot_labels[i].configure(text = loot_item, fg = '#f5f5f5')
-        
-        # final str fixes
-        loot_str = loot_labels[i].cget('text')
-        loot_str = loot_str.replace("Charm Large", "Grand Charm").replace("Charm Medium", "Large Charm").replace("Charm Small", "Small Charm")
-        # if "charm" in loot_str.lower(): print("**************************charm", loot_str)
-        loot_labels[i].configure(text = loot_str)
-    logging.info(" ")
+            elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower()):
+                loot_labels[i].configure(text = loot_item, fg = '#eb721c')
+            else:
+                # reset color
+                loot_labels[i].configure(text = loot_item, fg = '#f5f5f5')
+            
+            # final str fixes
+            loot_str = loot_labels[i].cget('text')
+            loot_str = loot_str.replace("Charm Large", "Grand Charm").replace("Charm Medium", "Large Charm").replace("Charm Small", "Small Charm")
+            # if "charm" in loot_str.lower(): print("**************************charm", loot_str)
+            loot_labels[i].configure(text = loot_str)
+        logging.info(" ")
 
-    # play drop sound
-    if sound_btn.config('relief')[-1] == 'sunken':
-        playsound('./sound/dropsound.mp3', False)
+        # play drop sound
+        if sound_btn.config('relief')[-1] == 'sunken' and running_once:
+            playsound('./sound/dropsound.mp3', False)
 
 
 # background image
@@ -113,29 +122,33 @@ def draw_bckgrd(boss_str=BOSSES[0]):
 draw_bckgrd()
 
 # Run button
-btn = Button(root, text = "Run" , fg = "red", command=run_clicked, font=('Segoe UI', 10))
+btn = Button(root, text = "Run x times", width=9, fg = "red", command=run_clicked, font=('Segoe UI', 10))
 # set button grid
 btn.grid(column=0, row=0)
 
 # players setting
 lbl1 = Label(root, text = "/players", font=('Segoe UI', 10), width=15)
 lbl1.grid(column=1, row=0)
-# players entry Field
+# players entry field
 txt = Entry(root, width=4, font=('Segoe UI', 10))
 txt.insert(0, "1")
 txt.grid(column=2, row=0)
 
-# MF settings
-def draw_mf_settings(mf_str="0"):
-    global lbl2, txtmf
+# MF settings and run x field
+def draw_mf_runx_settings(mf_str="0"):
+    global lbl2, txtmf, runx
     lbl2 = Label(root, text = "+Magic Find", font=('Segoe UI', 10), width=15)
     lbl2.grid(column=1, row=1)
-    # entry Field
+    # entry field
     txtmf = Entry(root, width=4, font=('Segoe UI', 10))
     txtmf.insert(0, mf_str)
     txtmf.grid(column=2, row=1)
+    # run x times entry field
+    runx = Entry(root, width=8, font=('Segoe UI', 10))
+    runx.insert(0, "1")
+    runx.grid(column=0, row=1)
 
-draw_mf_settings()
+draw_mf_runx_settings()
 
 # difficulty settings dropdown
 diffi = StringVar(root)
@@ -149,7 +162,7 @@ def change_bkgrd_and_draw_labels(*args):
     prev_mf = txtmf.get()
     draw_bckgrd(boss.get())
     # redraw MF label. it's cut off once background image is drawn
-    draw_mf_settings(prev_mf)
+    draw_mf_runx_settings(prev_mf)
     # redraw loot labels if boss dropdown callback is used. Had issue where duriel -> duriel click would remove the loot labels from FOV
     draw_lootlabels()
     # # play sound andy, duri, meph, diablo. The audio beginning is abrupt
@@ -209,15 +222,10 @@ sound_btn.grid(column=5, row=0)
 # random seed setting
 lblseed = Label(root, text = "Seed", font=('Segoe UI', 10), width=7)
 lblseed.grid(column=6, row=0)
-# seed entry Field
+# seed entry field
 txtseed = Entry(root, width=4, font=('Segoe UI', 10))
 txtseed.insert(0, "")
 txtseed.grid(column=7, row=0)
 
 
 root.mainloop()
-
-
-### Possible TODO: 'run X times'
-# 100 andy runs with one click. then see the Loot!
-# add a scroll window. how would i add colored text?

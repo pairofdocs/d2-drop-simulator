@@ -22,6 +22,10 @@ Vampgaze, Duriels, Skullders?
 - Ethereal status
 
 
+### Run `x` times
+Specify the number of runs to simulate with the text input field underneath the button `Run x times`. The results of the runs will be logged to the file `session.txt`. Drop sounds are disabled if the number of runs is more than 1.
+
+
 ### Drop Sounds
 A button to toggle drop sounds enables/disables playing a sound effect while loot is 'dropped' by a boss.  
 D2 mp3 files from this reddit [thread](https://www.reddit.com/r/pathofexile/comments/9at2tw/d2_sounds_arranged_for_neversinks_filterblade/?utm_source=share&utm_medium=mweb&_branch_match_id=894651600463416745) are included in the `sound/` folder.  
