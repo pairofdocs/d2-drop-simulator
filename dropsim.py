@@ -135,7 +135,7 @@ txt.insert(0, "1")
 txt.grid(column=2, row=0)
 
 # MF settings and run x field
-def draw_mf_runx_settings(mf_str="0"):
+def draw_mf_runx_settings(mf_str="0", runx_str="1"):
     global lbl2, txtmf, runx
     lbl2 = Label(root, text = "+Magic Find", font=('Segoe UI', 10), width=15)
     lbl2.grid(column=1, row=1)
@@ -145,7 +145,7 @@ def draw_mf_runx_settings(mf_str="0"):
     txtmf.grid(column=2, row=1)
     # run x times entry field
     runx = Entry(root, width=8, font=('Segoe UI', 10))
-    runx.insert(0, "1")
+    runx.insert(0, runx_str)
     runx.grid(column=0, row=1)
 
 draw_mf_runx_settings()
@@ -159,10 +159,10 @@ w.grid(column=3, row=0)
 
 
 def change_bkgrd_and_draw_labels(*args):
-    prev_mf = txtmf.get()
+    prev_mf, prev_runx = txtmf.get(), runx.get()
     draw_bckgrd(boss.get())
     # redraw MF label. it's cut off once background image is drawn
-    draw_mf_runx_settings(prev_mf)
+    draw_mf_runx_settings(prev_mf, prev_runx)
     # redraw loot labels if boss dropdown callback is used. Had issue where duriel -> duriel click would remove the loot labels from FOV
     draw_lootlabels()
     # # play sound andy, duri, meph, diablo. The audio beginning is abrupt
