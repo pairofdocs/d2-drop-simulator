@@ -96,6 +96,7 @@ def run_clicked():
 
             elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower()):
                 loot_labels[i].configure(text = loot_item, fg = '#eb721c')
+                logging.info(f"{loot_item}")
             else:
                 # reset color
                 loot_labels[i].configure(text = loot_item, fg = '#f5f5f5')
