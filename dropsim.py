@@ -23,7 +23,7 @@ BOSS_IMGS = {TCNames[0]: "./img/andy-d2r-resize.png",
              TCNames[2]: "./img/meph-d2r-resize2.png",
              TCNames[3]: "./img/diab-d2r-resize2.png",
              TCNames[4]: "./img/arreat-d2r-resize2.png",
-             TCNames[5]: "./img/arreat-d2r-resize2.png"}
+             TCNames[5]: "./img/cowlvl-d2r-resize2.png"}
              # Need an HD baal pic. use Arreat summit image?
 
 # root window
@@ -68,7 +68,8 @@ def run_clicked():
             loot_item = final_roll_from_tc(mon_str, players_str, seed_str)   # output is '' if NoDrop
             if loot_item:
                 loot_item = name_from_armo_weap_misc(loot_item, mf_str, mon_str)
-                drops.append(loot_item)
+                if loot_item != 'not found':
+                    drops.append(loot_item)
 
         for i,loot_item in enumerate(drops):
             if "uni~" in loot_item:

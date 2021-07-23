@@ -9,6 +9,8 @@ To play, download the zip [here](https://github.com/pairofdocs/d2-drop-simulator
 
 ![App window with diablo](./img/diabq_drop_bckgrd.jpg)
 
+![App window with cow level](./img/cow_drop_bckgrd.jpg)
+
 Each session's drops are logged to a file `session.txt`  
 ![session.txt drop log](./img/350runs_shako.jpg)
 
