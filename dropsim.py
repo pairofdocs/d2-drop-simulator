@@ -11,19 +11,26 @@ logging.basicConfig(filename='session.txt', filemode='w', format='%(message)s', 
 
 
 DIFFICULTIES = {'Normal': '', 'Nightmare': ' (N)', 'Hell': ' (H)'}
-BOSSES = ['Andariel', 'Duriel', 'Mephisto', 'Diablo', 'Baal']
-BOSS_IMGS = {BOSSES[0]: "./img/andy-d2r-resize.png",
-             BOSSES[1]: "./img/duri-d2r-resize2.png",
-             BOSSES[2]: "./img/meph-d2r-resize2.png",
-             BOSSES[3]: "./img/diab-d2r-resize2.png",
-             BOSSES[4]: "./img/arreat-d2r-resize2.png"}
+TCNames = ['Andariel', 'Duriel', 'Mephisto', 'Diablo', 'Baal', 'Cow']  # can add Council, Pindle, Eldrich
+TCPicks = {TCNames[0]: 7,
+           TCNames[1]: 7,
+           TCNames[2]: 7,
+           TCNames[3]: 7,
+           TCNames[4]: 7,  # this data is from TreasureClassEx.txt
+           TCNames[5]: 1}
+BOSS_IMGS = {TCNames[0]: "./img/andy-d2r-resize.png",
+             TCNames[1]: "./img/duri-d2r-resize2.png",
+             TCNames[2]: "./img/meph-d2r-resize2.png",
+             TCNames[3]: "./img/diab-d2r-resize2.png",
+             TCNames[4]: "./img/arreat-d2r-resize2.png",
+             TCNames[5]: "./img/arreat-d2r-resize2.png"}
              # Need an HD baal pic. use Arreat summit image?
 
 # root window
 root = Tk()
 
 # root window title and dimension (width x height)
-root.title("Boss Quest Drop Simulator")
+root.title("Bossq and Monster Drop Simulator")
 root.geometry('640x480')
 
 
@@ -40,7 +47,7 @@ def run_clicked():
     except:
         xtimes, running_once = 1, True
 
-    # boss selected from a dropdown: boss.get().  e.g.  'Andariel'
+    # boss selected from a dropdown: boss.get().  e.g.  'Andariel', 'Cow', ...
     mon_str = boss.get() + 'q' + DIFFICULTIES[diffi.get()]
     players_str = txt.get()
     mf_str = txtmf.get()
@@ -55,7 +62,7 @@ def run_clicked():
         for i in range(6):
             loot_labels[i].configure(text = '', fg = '#f5f5f5')
 
-        for i in range(7):
+        for i in range(TCPicks[boss.get()]):  # bosses have pick = 7, cows pick = 1
             if len(drops) == 6:
                 break
             loot_item = final_roll_from_tc(mon_str, players_str, seed_str)   # output is '' if NoDrop
@@ -114,7 +121,7 @@ def run_clicked():
 
 
 # background image
-def draw_bckgrd(boss_str=BOSSES[0]):
+def draw_bckgrd(boss_str=TCNames[0]):
     global bckgrd_image, bckgrd_label
     bckgrd_image = PhotoImage(file=BOSS_IMGS[boss_str])
     bckgrd_label = Label(root, image=bckgrd_image)
@@ -172,8 +179,8 @@ def change_bkgrd_and_draw_labels(*args):
 
 # bosses settings dropdown
 boss = StringVar(root)
-boss.set(BOSSES[0])
-wboss = OptionMenu(root, boss, *BOSSES)
+boss.set(TCNames[0])
+wboss = OptionMenu(root, boss, *TCNames)
 wboss.configure(width=10, font=('Segoe UI', 9))
 wboss.grid(column=4, row=0)
 # when boss dropdown value is changed draw the background and labels

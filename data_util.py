@@ -136,6 +136,13 @@ def final_roll_from_tc(tc_name_str, players_str, seed_str):
         random.seed(seedint)
         seed_set = True
     
+    # remove 'q' from tc_name_str if not questboss.  dropsim.py has   "boss.get() + 'q'"  and possible (N) or (H)
+    if tc_name_str.split('(')[0].rstrip() not in ['Andarielq', 'Durielq', 'Mephistoq', 'Diabloq', 'Baalq']:
+        if tc_name_str.endswith('q'):
+            tc_name_str = tc_name_str[0:-1]
+        else:
+            tc_name_str = tc_name_str.replace('q (', ' (')
+        
     while tc_name_str and tc_name_str in TCDICT:
         tc_name_str = one_roll_from_tc(tc_name_str, players_str)
 
@@ -172,6 +179,7 @@ def roll_from_armo_weap_lvl(item_str):
 
 def name_from_misc(item_str):
     out_name = "not found"
+    level = ''
     for row in MISCDICT.values():
         if row['code'] == item_str:
             out_name = row['name'].title()
@@ -184,6 +192,9 @@ def get_mlvl(mon_str):
     mon_name = mon_str.split(' (')[0].lower()
     if mon_name[0:4] == 'baal':
         mon_name = 'baalcrab'
+    elif mon_name[0:3] == 'cow':    # account for 'Cow King' if he's added to the tclist
+        mon_name = 'hellbovine'
+
     mon_diffi = ('(' + mon_str.split(' (')[1]) if '(' in mon_str else ''  # '', '(N)', '(H)'
     mon_name = mon_name[0:-1] if mon_name.endswith('q') else mon_name
     mlvl = int(MONSTATSDICT[mon_name]['Level'+mon_diffi])
@@ -197,6 +208,7 @@ def name_from_armo_weap_misc(item_str, mf_str, mon_str):
     """
     type_str = item_str[0:4]
     mlvl = get_mlvl(mon_str)
+    ## TODO: account for non quest boss names (cow -- hell bovine)
     if type_str in ['armo', 'weap']:
         out_name, level, itemtype = roll_from_armo_weap_lvl(item_str)
         # check for quality. unique, set, rare, magic.   out_name 'uni~ Balanced Knife'
