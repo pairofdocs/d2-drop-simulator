@@ -108,7 +108,14 @@ def run_clicked():
                     loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#ebe134')  # rare/yellow
                     if "charm" in loot_item.lower():
                         loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#8f82ff')    # undo rare color for charm
-
+            elif "magic~" in loot_item:
+                if 'potion' in loot_item.lower():
+                    loot_labels[i].configure(text = loot_item.replace('magic~ ',''), fg = '#f5f5f5')  # default gray
+                else:
+                    loot_labels[i].configure(text = loot_item.replace('magic~ ',''), fg = '#8f82ff')  # magic/blue
+            elif "normal~" in loot_item:
+                loot_labels[i].configure(text = loot_item.replace('normal~ ',''), fg = '#f5f5f5')  # default gray
+                    
             elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower() or "puzzlebox" in loot_item.lower()):
                 loot_labels[i].configure(text = loot_item, fg = '#eb721c')
                 logging.info(f"{loot_item}")

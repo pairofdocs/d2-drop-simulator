@@ -218,21 +218,22 @@ def name_from_armo_weap_misc(item_str, mf_str, mon_str):
         if not success: 
             # print(out_name, 'uni check failed. checking set')
             out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mon_str, mf_str, 'set')
-            # print(out_name, 'set check    >>>>>>>>>: ', success)
-
             # return rare quality
             if not success:
-                out_name = 'rare~ ' + out_name
-                ## TODO: add logic for questbosses / monsters.   qboss --> rare~.  if monster --> check_rare roll, add magic~ or nonmagic~
+                out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mon_str, mf_str, 'rar')
+                # check_rare roll, add magic~ or nonmagic~   (quest bosses and monsters logic will be same, referencing TC uni/set/rare col)
+                if not success:
+                    out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mon_str, mf_str, 'mag')
+                    if not success:  
+                        out_name = 'normal~ ' + out_name
 
-    # else misc    
+    # else misc
     else:
         out_name, level = name_from_misc(item_str)
         # misc.txt has lvl>0 for ring, amu, charm, rune.  do not check uniques of gems, runes, ...
         if level and int(level) > 0 and "rune" not in out_name.lower():
             out_name, success = check_uni_or_set(out_name, level, False, mlvl, mon_str, mf_str, 'uni')
-                        
-            # print(out_name, 'success', success)
+
             if not success: 
                 out_name, success = check_uni_or_set(out_name, level, False, mlvl, mon_str, mf_str, 'set')
 
@@ -285,14 +286,19 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mon_str, mf_s
         qual_min = int(row['SetMin'])
         qual_col = TCDICT[mon_str]['Set']
         factor = 500
-    else:
-        # quest drop always has success on rare item roll
+    elif qual_type == 'rar':
+        # quest drop always has success on rare item roll. This matches TCX values of 1024 for Rare, Magic cols
         qual = int(row['Rare']) 
         qual_divisor = int(row['RareDivisor'])
         qual_min = int(row['RareMin'])
         qual_col = TCDICT[mon_str]['Rare']
         factor = 600
-    ### TODO: qual for magic
+    else:
+        qual = int(row['Magic']) 
+        qual_divisor = int(row['MagicDivisor'])
+        qual_min = int(row['MagicMin'])
+        qual_col = TCDICT[mon_str]['Magic']
+
     qual_col = int(qual_col) if qual_col else 0
 
     # (BaseChance - ((mlvl_int-qlvl)/Divisor)) * 128    https://www.purediablo.com/forums/threads/item-generation-tutorial.110/
@@ -303,7 +309,7 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mon_str, mf_s
         mf = abs(int(mf_str))
     except:
         mf = 0
-    effect_mf = mf*factor/(mf+factor)
+    effect_mf = mf*factor/(mf+factor) if qual_type != 'mag' else mf
     chance = (chance*100)/(100 + effect_mf)
 
     if chance < qual_min:
@@ -313,9 +319,10 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mon_str, mf_s
 
     if random.randrange(0, max(int(chance),1)) < 128:
         roll_success = True
-        # either unique or failed unique. (and set/ failed set)
+        # either unique or failed unique. (and set/ failed set)  for quest drops.   for monsters can have uni, set, rare, magic, normal
         ### TODO: charms either gheeds or magic(blue)
         out_str = check_if_qlvl_works(name_str, mlvl_int, qual_type)
+        # TODO: if qual level rare or unique. cannot have a failed equip item.   if misc item. need logic for charm (cant be rare)
     else:
         out_str = name_str
     
@@ -342,6 +349,7 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
     """
     possible_items = []
     probs = []
+    quallist = None
 
     if "charm large" in name_str.lower():
         name_str = "charm"     # shows up as "Charm" in blue when other charms appear as "Charm large"
@@ -350,25 +358,34 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
         quallist = UNIQUES
         namecol = '*type'
         prefix = "uni~ "
-    else:
+    elif qual_type == 'set':
         quallist = SETS
         namecol = '*item'
         prefix = "set~ "
-    for row in quallist:
-        # remove (H), (M), (L) from gauntlets, gloves, belt.   Careful with the .split('(')  if unique/set items have '(' this fails. I fixed the item names. removed "(" from uni,set
-        if row[namecol].lower().replace(' ','').replace("'","").replace("’","") == name_str.lower().split('(')[0].replace(' ', '').replace("'","").replace("’",""):
-            # print(row[namecol], row['lvl'])
+    elif qual_type == 'rar':
+        prefix = "rare~ "
+    else:
+        prefix = "magic~ "
+    # TODO: is 'normal' needed here?
 
-            if row['lvl'] and int(row['lvl']) > 0 and int(row['lvl']) <= ilvl:
-                if not 'cow king' in row['index'].lower():
-                    possible_items.append(row['index'])
-                    probs.append(int(row['rarity']))
+    if quallist:
+        for row in quallist:
+            # remove (H), (M), (L) from gauntlets, gloves, belt.   Careful with the .split('(')  if unique/set items have '(' this fails. I fixed the item names. removed "(" from uni,set
+            if row[namecol].lower().replace(' ','').replace("'","").replace("’","") == name_str.lower().split('(')[0].replace(' ', '').replace("'","").replace("’",""):
+                # print(row[namecol], row['lvl'])
+                if row['lvl'] and int(row['lvl']) > 0 and int(row['lvl']) <= ilvl:
+                    if not 'cow king' in row['index'].lower():
+                        possible_items.append(row['index'])
+                        probs.append(int(row['rarity']))
     if possible_items:
         outname = prefix + random.choices(possible_items, weights=probs, k=1)[0]
     else:
         # undo the large charm rename from above
         if name_str == 'charm':
             name_str = 'Charm Large'
-        outname = 'failed ' + prefix + name_str     # this should be rare or magic (for failed sets)
+        if qual_type in ['uni', 'set']:
+            outname = 'failed ' + prefix + name_str     # this should be rare or magic (for failed sets)
+        else:
+            outname = prefix + name_str
 
     return outname
