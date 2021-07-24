@@ -11,7 +11,7 @@ logging.basicConfig(filename='session.txt', filemode='w', format='%(message)s', 
 
 
 DIFFICULTIES = {'Normal': '', 'Nightmare': ' (N)', 'Hell': ' (H)'}
-TCNames = ['Andariel', 'Duriel', 'Mephisto', 'Diablo', 'Baal', 'Cow']  # can add Council, Pindle, Eldrich
+TCNames = ['Andariel', 'Duriel - Base', 'Mephisto', 'Diablo', 'Baal', 'Cow']  # can add Council, Pindle, Eldrich
 TCPicks = {TCNames[0]: 7,
            TCNames[1]: 7,
            TCNames[2]: 7,
@@ -48,7 +48,14 @@ def run_clicked():
         xtimes, running_once = 1, True
 
     # boss selected from a dropdown: boss.get().  e.g.  'Andariel', 'Cow', ...
-    mon_str = boss.get() + 'q' + DIFFICULTIES[diffi.get()]
+    mon_str = boss.get()
+    if 'Duriel' in mon_str:
+        mon_str = 'Durielq' + DIFFICULTIES[diffi.get()] + ' - Base'
+    elif mon_str in TCNames[0:5]:
+        mon_str += 'q' + DIFFICULTIES[diffi.get()]
+    else:
+        mon_str += DIFFICULTIES[diffi.get()]
+
     players_str = txt.get()
     mf_str = txtmf.get()
     seed_str = txtseed.get()
@@ -102,7 +109,7 @@ def run_clicked():
                     if "charm" in loot_item.lower():
                         loot_labels[i].configure(text = loot_item.replace('rare~ ',''), fg = '#8f82ff')    # undo rare color for charm
 
-            elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower()):
+            elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower() or "puzzlebox" in loot_item.lower()):
                 loot_labels[i].configure(text = loot_item, fg = '#eb721c')
                 logging.info(f"{loot_item}")
             else:

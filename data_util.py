@@ -189,6 +189,8 @@ def name_from_misc(item_str):
 
 
 def get_mlvl(mon_str):
+    if mon_str.endswith(" - Base"):
+        mon_str = mon_str.replace(" - Base", "")
     mon_name = mon_str.split(' (')[0].lower()
     if mon_name[0:4] == 'baal':
         mon_name = 'baalcrab'
@@ -208,31 +210,31 @@ def name_from_armo_weap_misc(item_str, mf_str, mon_str):
     """
     type_str = item_str[0:4]
     mlvl = get_mlvl(mon_str)
-    ## TODO: account for non quest boss names (cow -- hell bovine)
     if type_str in ['armo', 'weap']:
         out_name, level, itemtype = roll_from_armo_weap_lvl(item_str)
         # check for quality. unique, set, rare, magic.   out_name 'uni~ Balanced Knife'
-        out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mf_str, 'uni')
+        out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mon_str, mf_str, 'uni')
         
         if not success: 
             # print(out_name, 'uni check failed. checking set')
-            out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mf_str, 'set')
+            out_name, success = check_uni_or_set(out_name, level, is_class_specific(itemtype), mlvl, mon_str, mf_str, 'set')
             # print(out_name, 'set check    >>>>>>>>>: ', success)
 
             # return rare quality
             if not success:
                 out_name = 'rare~ ' + out_name
+                ## TODO: add logic for questbosses / monsters.   qboss --> rare~.  if monster --> check_rare roll, add magic~ or nonmagic~
 
     # else misc    
     else:
         out_name, level = name_from_misc(item_str)
         # misc.txt has lvl>0 for ring, amu, charm, rune.  do not check uniques of gems, runes, ...
         if level and int(level) > 0 and "rune" not in out_name.lower():
-            out_name, success = check_uni_or_set(out_name, level, False, mlvl, mf_str, 'uni')
+            out_name, success = check_uni_or_set(out_name, level, False, mlvl, mon_str, mf_str, 'uni')
                         
             # print(out_name, 'success', success)
             if not success: 
-                out_name, success = check_uni_or_set(out_name, level, False, mlvl, mf_str, 'set')
+                out_name, success = check_uni_or_set(out_name, level, False, mlvl, mon_str, mf_str, 'set')
 
                 # return rare quality
                 name_lower = out_name.lower()
@@ -254,7 +256,7 @@ def is_class_specific(type_str):
     return out
 
 
-def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mf_str='0', qual_type='uni'):
+def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mon_str, mf_str='0', qual_type='uni'):
     """
     inputs ~ ('Balanced Knife', '13', False -- for 'tkni')
     normal vs elite check isn't needed for Andy. uni,set,rare,magic have same values (rows 4 and 5 in itemratio.txt)
@@ -274,22 +276,24 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mf_str='0', q
         qual = int(row['Unique']) 
         qual_divisor = int(row['UniqueDivisor'])
         qual_min = int(row['UniqueMin'])
-        qual_col = int(TCDICT['Andarielq (H)']['Unique'])     # Andy TC hard coded here
+        qual_col = TCDICT[mon_str]['Unique']
         # MF diminishing returns factor is 250 for unique, 500 for set and 600 for rare
         factor = 250
     elif qual_type == 'set':
         qual = int(row['Set']) 
         qual_divisor = int(row['SetDivisor'])
         qual_min = int(row['SetMin'])
-        qual_col = int(TCDICT['Andarielq (H)']['Set'])     # Andy TC hard coded here
+        qual_col = TCDICT[mon_str]['Set']
         factor = 500
     else:
         # quest drop always has success on rare item roll
         qual = int(row['Rare']) 
         qual_divisor = int(row['RareDivisor'])
         qual_min = int(row['RareMin'])
-        qual_col = int(TCDICT['Andarielq (H)']['Rare'])     # Andy TC hard coded here
+        qual_col = TCDICT[mon_str]['Rare']
         factor = 600
+    ### TODO: qual for magic
+    qual_col = int(qual_col) if qual_col else 0
 
     # (BaseChance - ((mlvl_int-qlvl)/Divisor)) * 128    https://www.purediablo.com/forums/threads/item-generation-tutorial.110/
     # this is not a 'probability', more like a 'chance number'
@@ -305,7 +309,6 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mf_str='0', q
     if chance < qual_min:
         chance = qual_min
     
-    # uni_col = int(TCDICT['Andarielq (H)']['Unique'])     # Andy TC hard coded here
     chance = chance - (chance*qual_col/1024)
 
     if random.randrange(0, max(int(chance),1)) < 128:
