@@ -23,7 +23,6 @@ Vampgaze, Duriels, Skullders?
 - Enable/disable check for same unique per run
 - Ethereal status
 - Duriel drop picks for 1st TC and then Base TC. Currently Duriel's drops are only from the Base TC, no TP scrolls are dropped
-- Non quest bosses (e.g. cows) to roll for rare, if that fails then magic
 
 
 ### Run `x` times
