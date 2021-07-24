@@ -236,11 +236,13 @@ def name_from_armo_weap_misc(item_str, mf_str, mon_str):
 
             if not success: 
                 out_name, success = check_uni_or_set(out_name, level, False, mlvl, mon_str, mf_str, 'set')
-
                 # return rare quality
                 name_lower = out_name.lower()
                 if not success and ("jewel" in name_lower or "ring" in name_lower or "amulet" in name_lower or "charm" in name_lower):
-                    out_name = 'rare~ ' + out_name
+                    # check roll for rare, magic
+                    out_name, success = check_uni_or_set(out_name, level, False, mlvl, mon_str, mf_str, 'rar')
+                    if not success:
+                        out_name = 'magic~ ' + out_name      # jewel, ring, ammy, charm must be magic if rare roll fails
     
     return out_name
 
@@ -319,10 +321,9 @@ def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mon_str, mf_s
 
     if random.randrange(0, max(int(chance),1)) < 128:
         roll_success = True
-        # either unique or failed unique. (and set/ failed set)  for quest drops.   for monsters can have uni, set, rare, magic, normal
+        # either unique or failed unique. (and set/ failed set)  for quest drops.   non quest monsters can have uni, set, rare, magic, normal
         ### TODO: charms either gheeds or magic(blue)
         out_str = check_if_qlvl_works(name_str, mlvl_int, qual_type)
-        # TODO: if qual level rare or unique. cannot have a failed equip item.   if misc item. need logic for charm (cant be rare)
     else:
         out_str = name_str
     
@@ -366,7 +367,6 @@ def check_if_qlvl_works(name_str, ilvl, qual_type='uni'):
         prefix = "rare~ "
     else:
         prefix = "magic~ "
-    # TODO: is 'normal' needed here?
 
     if quallist:
         for row in quallist:
