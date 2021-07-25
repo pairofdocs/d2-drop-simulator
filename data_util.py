@@ -86,7 +86,7 @@ load_csv_to_list(filepath, SETS)
 def one_roll_from_tc(tc_name_str, players_str):
     """
     Return a random selection (based on Item Probs) from a row (Treasureclass)
-    one_roll_from_tc('Andarielq (H)')
+    one_roll_from_tc('Andarielq (H)')   picks 7    ---    Act 2 Equip A	19    	Act 2 Good	3
     Out[210]: 'Act 2 (H) Equip A'
     """
     rowdict = TCDICT[tc_name_str]
@@ -122,9 +122,13 @@ def one_roll_from_tc(tc_name_str, players_str):
     return outcome
 
 
-def final_roll_from_tc(tc_name_str, players_str, seed_str):
+def final_rolls_from_tc(tc_name_str, players_str, seed_str):
     """
     weap18, weap48, armo60, armo6, weap12, amu, armo36   ~~~ drops work!  
+    roll multiple times if TCDICT inner has picks > 1
+    return outcomes list ~  ['weap12', 'weap12', 'weap12', 'armo9', 'armo15', 'weap12']  for 6 drops of 'Durielq - Base'
+                            [{'rolleditemtc': 'armo18', 'rootclass': 'Durielq (N) - Base'}]         storing itemname and root TClass
+                            [] for a noDrop outcome
     """
     global seed_set
     # set random seed if not set already. only set once for duration of app
@@ -137,16 +141,41 @@ def final_roll_from_tc(tc_name_str, players_str, seed_str):
         seed_set = True
     
     # remove 'q' from tc_name_str if not questboss.  dropsim.py has   "boss.get() + 'q'"  and possible (N) or (H)
-    if tc_name_str.split('(')[0].rstrip() not in ['Andarielq', 'Durielq', 'Mephistoq', 'Diabloq', 'Baalq']:
+    qboss = tc_name_str.split('(')[0].rstrip() in ['Andarielq', 'Durielq', 'Mephistoq', 'Diabloq', 'Baalq']
+    if not qboss:
         if tc_name_str.endswith('q'):
             tc_name_str = tc_name_str[0:-1]
         else:
             tc_name_str = tc_name_str.replace('q (', ' (')
-        
-    while tc_name_str and tc_name_str in TCDICT:
-        tc_name_str = one_roll_from_tc(tc_name_str, players_str)
+    
+    # get first inner pick and pick number
+    tc_name_str1 = one_roll_from_tc(tc_name_str, players_str)
+    inner_pick_num = 0                       ## TODO:  account for -pick_num     (like champions/uniques)
+    outcomes = []         # store itemTC and TC class.  Needed for keeping the uni/set/rare mf values
+    if tc_name_str1:
+        if tc_name_str1 in TCDICT:
+            rowdict = TCDICT[tc_name_str1]
+            inner_pick_num = int(rowdict['Picks']) if rowdict['Picks'] else 1
+        else:
+            # 'tsc', 'gld' rolled and it's not a row in the TCDICT
+            outcomes += [{'rolleditemtc': tc_name_str1, 'rootclass': tc_name_str}]       # when not 'Durielq - Base' rolled from Durielq
 
-    return tc_name_str
+    for i in range(inner_pick_num):
+        tc_name_during_pick = tc_name_str1
+        # keep traversing Treasure classes.  limit of 6 items dropped from a monster  (detail left out: gold can be a 7th drop for qbosses)
+        while tc_name_during_pick and tc_name_during_pick in TCDICT and len(outcomes) < 6:
+            tc_name_during_pick = one_roll_from_tc(tc_name_during_pick, players_str)
+        
+        if tc_name_during_pick and len(outcomes) < 6:
+            # need monster name in TC for 'Cow'.    TODO:  this logic should be improved if using TC classes for uniques or regular monsters
+            rootclass = tc_name_str
+            # if tc_name_str is a questboss
+            if qboss:
+                rootclass = tc_name_str if TCDICT[tc_name_str]['Unique'] else tc_name_str1      # if Unique qual values are in base TC, use it. else use 1st inner pick (duri - base)
+            
+            outcomes += [{'rolleditemtc': tc_name_during_pick, 'rootclass': rootclass}]
+
+    return outcomes
 
 
 def roll_from_armo_weap_lvl(item_str):
@@ -178,13 +207,16 @@ def roll_from_armo_weap_lvl(item_str):
 
 
 def name_from_misc(item_str):
-    out_name = "not found"
+    out_name = "Misc"
     level = ''
     for row in MISCDICT.values():
         if row['code'] == item_str:
             out_name = row['name'].title()
             level = row['level']
-    
+    # TODO: can check weapons.txt for misc item codes and update out_name
+    if out_name == 'Misc':
+        print('not found,  Misc :                      ' + item_str)
+        # not found :                      gps.    in misc.txt   Not used	   Spleen.  code 'gps' is in Misc2 in TCX.txt.  'gps' and 'ops' are in weapons.txt. oil potion and gas potion
     return out_name, level
 
 

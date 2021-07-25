@@ -4,16 +4,16 @@ import logging
 from tkinter import *
 from playsound import playsound
 
-from data_util import final_roll_from_tc, name_from_armo_weap_misc
+from data_util import final_rolls_from_tc, name_from_armo_weap_misc
 
 # log drops to file
 logging.basicConfig(filename='session.txt', filemode='w', format='%(message)s', level=logging.INFO)
 
 
 DIFFICULTIES = {'Normal': '', 'Nightmare': ' (N)', 'Hell': ' (H)'}
-TCNames = ['Andariel', 'Duriel - Base', 'Mephisto', 'Diablo', 'Baal', 'Cow']  # can add Council, Pindle, Eldrich
+TCNames = ['Andariel', 'Duriel', 'Mephisto', 'Diablo', 'Baal', 'Cow']  # can add Council, Pindle, Eldrich
 TCPicks = {TCNames[0]: 7,
-           TCNames[1]: 7,
+           TCNames[1]: 5,
            TCNames[2]: 7,
            TCNames[3]: 7,
            TCNames[4]: 7,  # this data is from TreasureClassEx.txt
@@ -49,9 +49,7 @@ def run_clicked():
 
     # boss selected from a dropdown: boss.get().  e.g.  'Andariel', 'Cow', ...
     mon_str = boss.get()
-    if 'Duriel' in mon_str:
-        mon_str = 'Durielq' + DIFFICULTIES[diffi.get()] + ' - Base'
-    elif mon_str in TCNames[0:5]:
+    if mon_str in TCNames[0:5]:
         mon_str += 'q' + DIFFICULTIES[diffi.get()]
     else:
         mon_str += DIFFICULTIES[diffi.get()]
@@ -72,11 +70,14 @@ def run_clicked():
         for i in range(TCPicks[boss.get()]):  # bosses have pick = 7, cows pick = 1
             if len(drops) == 6:
                 break
-            loot_item = final_roll_from_tc(mon_str, players_str, seed_str)   # output is '' if NoDrop
-            if loot_item:
-                loot_item = name_from_armo_weap_misc(loot_item, mf_str, mon_str)
-                if loot_item != 'not found':
-                    drops.append(loot_item)
+            # output is [] if NoDrop.  else ~ [{'rolleditemtc': 'armo18', 'rootclass': 'Durielq (N) - Base'}...]
+            loot_items = final_rolls_from_tc(mon_str, players_str, seed_str)
+            loot_items = [name_from_armo_weap_misc(it['rolleditemtc'], mf_str, it['rootclass']) for it in loot_items]   # expanded item names
+            if loot_items:
+                for loot_item in loot_items:
+                    if len(drops) < 6:      # if loot_item != 'not found'.   now out_name is 'Misc' instead of 'not found'
+                        # TODO: misc 'gps' and 'ops' codes give 'not found' loot_item.  add check of weapons.txt in def name_from_misc()
+                        drops.append(loot_item)
 
         for i,loot_item in enumerate(drops):
             if "uni~" in loot_item:

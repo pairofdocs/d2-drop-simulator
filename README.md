@@ -22,7 +22,6 @@ Vampgaze, Duriels, Skullders?
 - Add Baal image
 - Enable/disable check for same unique per run
 - Ethereal status
-- Duriel drop picks for 1st TC and then Base TC. Currently Duriel's drops are only from the Base TC, no TP scrolls are dropped
 
 
 ### Run `x` times
