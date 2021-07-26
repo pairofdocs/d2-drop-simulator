@@ -25,7 +25,7 @@ BOSS_IMGS = {TCNames[0]: "./img/andy-d2r-resize.png",
              TCNames[3]: "./img/diab-d2r-resize2.png",
              TCNames[4]: "./img/arreat-d2r-resize2.png",
              TCNames[5]: "./img/cowlvl-d2r-resize2.png",
-             TCNames[6]: "./img/cowlvl-d2r-resize2.png"}
+             TCNames[6]: "./img/countess-d2r-resize2.png"}
              # Need an HD baal pic. use Arreat summit image?
 
 # root window
