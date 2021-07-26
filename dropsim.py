@@ -75,8 +75,7 @@ def run_clicked():
             loot_items = [name_from_armo_weap_misc(it['rolleditemtc'], mf_str, it['rootclass']) for it in loot_items]   # expanded item names
             if loot_items:
                 for loot_item in loot_items:
-                    if len(drops) < 6:      # if loot_item != 'not found'.   now out_name is 'Misc' instead of 'not found'
-                        # TODO: misc 'gps' and 'ops' codes give 'not found' loot_item.  add check of weapons.txt in def name_from_misc()
+                    if len(drops) < 6:
                         drops.append(loot_item)
 
         for i,loot_item in enumerate(drops):

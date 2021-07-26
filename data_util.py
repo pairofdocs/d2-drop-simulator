@@ -11,6 +11,14 @@ MONSTATSDICT = {}
 ITEMRATIO = []
 UNIQUES = []
 SETS = []
+MISC_THROW_POTS = {
+    "gps": {"name": "Rancid Gas Potion", "level": "32"},
+    "ops": {"name": "Oil Potion", "level": "28"},
+    "gpm": {"name": "Choking Gas Potion", "level": "20"},
+    "opm": {"name": "Exploding Potion", "level": "16"},
+    "gpl": {"name": "Strangling Gas Potion", "level": "8"},
+    "opl": {"name": "Fulminating Potion", "level": "4"},
+}
 seed_set = False
 
 
@@ -140,13 +148,7 @@ def final_rolls_from_tc(tc_name_str, players_str, seed_str):
         random.seed(seedint)
         seed_set = True
     
-    # remove 'q' from tc_name_str if not questboss.  dropsim.py has   "boss.get() + 'q'"  and possible (N) or (H)
     qboss = tc_name_str.split('(')[0].rstrip() in ['Andarielq', 'Durielq', 'Mephistoq', 'Diabloq', 'Baalq']
-    if not qboss:
-        if tc_name_str.endswith('q'):
-            tc_name_str = tc_name_str[0:-1]
-        else:
-            tc_name_str = tc_name_str.replace('q (', ' (')
     
     # get first inner pick and pick number
     tc_name_str1 = one_roll_from_tc(tc_name_str, players_str)
@@ -207,16 +209,16 @@ def roll_from_armo_weap_lvl(item_str):
 
 
 def name_from_misc(item_str):
-    out_name = "Misc"
+    out_name = 'Misc'
     level = ''
     for row in MISCDICT.values():
         if row['code'] == item_str:
             out_name = row['name'].title()
             level = row['level']
-    # TODO: can check weapons.txt for misc item codes and update out_name
+    # use misc throwing potions (gas, oil small,med,large) name and level from weapons.txt
     if out_name == 'Misc':
-        print('not found,  Misc :                      ' + item_str)
-        # not found :                      gps.    in misc.txt   Not used	   Spleen.  code 'gps' is in Misc2 in TCX.txt.  'gps' and 'ops' are in weapons.txt. oil potion and gas potion
+        out_name = MISC_THROW_POTS[item_str]['name']
+        level = MISC_THROW_POTS[item_str]['level']
     return out_name, level
 
 
