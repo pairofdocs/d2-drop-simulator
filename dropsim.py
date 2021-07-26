@@ -11,19 +11,21 @@ logging.basicConfig(filename='session.txt', filemode='w', format='%(message)s', 
 
 
 DIFFICULTIES = {'Normal': '', 'Nightmare': ' (N)', 'Hell': ' (H)'}
-TCNames = ['Andariel', 'Duriel', 'Mephisto', 'Diablo', 'Baal', 'Cow']  # can add Council, Pindle, Eldrich
+TCNames = ['Andariel', 'Duriel', 'Mephisto', 'Diablo', 'Baal', 'Cow', 'Countess']  # can add Council, Pindle, Eldrich
 TCPicks = {TCNames[0]: 7,
            TCNames[1]: 5,
            TCNames[2]: 7,
            TCNames[3]: 7,
            TCNames[4]: 7,  # this data is from TreasureClassEx.txt
-           TCNames[5]: 1}
+           TCNames[5]: 1,
+           TCNames[6]: 1}  # Countess. pick 1 for negative pickNum, logic in data_util reads -pickNum and outputs list of outcomes}
 BOSS_IMGS = {TCNames[0]: "./img/andy-d2r-resize.png",
              TCNames[1]: "./img/duri-d2r-resize2.png",
              TCNames[2]: "./img/meph-d2r-resize2.png",
              TCNames[3]: "./img/diab-d2r-resize2.png",
              TCNames[4]: "./img/arreat-d2r-resize2.png",
-             TCNames[5]: "./img/cowlvl-d2r-resize2.png"}
+             TCNames[5]: "./img/cowlvl-d2r-resize2.png",
+             TCNames[6]: "./img/cowlvl-d2r-resize2.png"}
              # Need an HD baal pic. use Arreat summit image?
 
 # root window
@@ -116,7 +118,7 @@ def run_clicked():
             elif "normal~" in loot_item:
                 loot_labels[i].configure(text = loot_item.replace('normal~ ',''), fg = '#f5f5f5')  # default gray
                     
-            elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower() or "puzzlebox" in loot_item.lower()):
+            elif ("essence of" in loot_item.lower() or " rune" in loot_item.lower() or "key of" in loot_item.lower() or "puzzlebox" in loot_item.lower()):
                 loot_labels[i].configure(text = loot_item, fg = '#eb721c')
                 logging.info(f"{loot_item}")
             else:

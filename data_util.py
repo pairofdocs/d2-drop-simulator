@@ -19,6 +19,9 @@ MISC_THROW_POTS = {
     "gpl": {"name": "Strangling Gas Potion", "level": "8"},
     "opl": {"name": "Fulminating Potion", "level": "4"},
 }
+MONSTATSDICT_EXTRA = {
+    "countess": {"Level": "11", "Level(N)": "45", "Level(H)": "82"}
+}
 seed_set = False
 
 
@@ -133,7 +136,7 @@ def one_roll_from_tc(tc_name_str, players_str):
 def final_rolls_from_tc(tc_name_str, players_str, seed_str):
     """
     weap18, weap48, armo60, armo6, weap12, amu, armo36   ~~~ drops work!  
-    roll multiple times if TCDICT inner has picks > 1
+    roll multiple times if TCDICT inner has picks > 1.   if TCDICT has picks < 1 assemble a sequence of TCs and do nested rolls
     return outcomes list ~  ['weap12', 'weap12', 'weap12', 'armo9', 'armo15', 'weap12']  for 6 drops of 'Durielq - Base'
                             [{'rolleditemtc': 'armo18', 'rootclass': 'Durielq (N) - Base'}]         storing itemname and root TClass
                             [] for a noDrop outcome
@@ -150,10 +153,44 @@ def final_rolls_from_tc(tc_name_str, players_str, seed_str):
     
     qboss = tc_name_str.split('(')[0].rstrip() in ['Andarielq', 'Durielq', 'Mephistoq', 'Diabloq', 'Baalq']
     
-    # get first inner pick and pick number
-    tc_name_str1 = one_roll_from_tc(tc_name_str, players_str)
-    inner_pick_num = 0                       ## TODO:  account for -pick_num     (like champions/uniques)
     outcomes = []         # store itemTC and TC class.  Needed for keeping the uni/set/rare mf values
+    rootpicknum = TCDICT[tc_name_str]['Picks']
+    
+    if int(rootpicknum) < 0:
+        # get inner TCs and probNums then roll in order  [TC1, TC1, TC2, TC2] and append to outcomes
+        innertcs, rollnum, rollseq = [], [], []
+        for k,v in TCDICT[tc_name_str].items():
+            if k.startswith("Item") and v:
+                # add item to item list and rollNum to prob list
+                innertcs.append(v)
+                rollnum.append(int(TCDICT[tc_name_str][f'Prob{len(innertcs)}']))
+        # assemble sequence of TCs
+        for i in range(len(innertcs)):
+            rollseq += rollnum[i]*[innertcs[i]]   # ['Countess Item', 'Countess Rune']
+        for tc_roll in rollseq:
+            if len(outcomes) < 6:
+                outcomes += nested_rolls_in_tc(tc_roll, players_str, qboss, positive_picks=False, neg_root_tc=tc_name_str)
+        outcomes = outcomes[0:6] # take the first 6, remove any extra drops 
+        
+    else:  # rootpicknum > 0
+        outcomes = nested_rolls_in_tc(tc_name_str, players_str, qboss, positive_picks=True, neg_root_tc='')
+
+    return outcomes
+
+
+def nested_rolls_in_tc(tc_name_str, players_str, qboss, positive_picks=True, neg_root_tc=''):
+    """
+    Nested picking from tc_name_str doing multiple picks (e.g. Duriel --> Duriel Base  and   Countess --> Countess Item and Rune)
+    if negative picks are selected. a root_tc is input,  e.g. 'Countess'.  uni/set/rare qual values are used from this tc
+    """
+    # get first inner pick and pick number.  (remove 'mul='  if gld is picked)
+    if positive_picks:
+        tc_name_str1 = one_roll_from_tc(tc_name_str, players_str).split(',mul=')[0]
+    else:
+        tc_name_str1 = tc_name_str  # e.g. 'Countess Item'. one_roll_from_tc is not used since it randomly chooses a pick. a sequence of picks is used
+    
+    inner_pick_num = 0
+    outcomes = []
     if tc_name_str1:
         if tc_name_str1 in TCDICT:
             rowdict = TCDICT[tc_name_str1]
@@ -166,17 +203,18 @@ def final_rolls_from_tc(tc_name_str, players_str, seed_str):
         tc_name_during_pick = tc_name_str1
         # keep traversing Treasure classes.  limit of 6 items dropped from a monster  (detail left out: gold can be a 7th drop for qbosses)
         while tc_name_during_pick and tc_name_during_pick in TCDICT and len(outcomes) < 6:
-            tc_name_during_pick = one_roll_from_tc(tc_name_during_pick, players_str)
+            tc_name_during_pick = one_roll_from_tc(tc_name_during_pick, players_str).split(',mul=')[0]
         
         if tc_name_during_pick and len(outcomes) < 6:
-            # need monster name in TC for 'Cow'.    TODO:  this logic should be improved if using TC classes for uniques or regular monsters
-            rootclass = tc_name_str
+            # need monster name in TC for 'Cow'. 
+            # TODO:  this logic should be improved if using TC classes for uniques or regular monsters.  check if TCDICT has Unique val. Countess/ Council
+            rootclass = neg_root_tc if neg_root_tc else tc_name_str   # for negative pick nums  use the input neg_root_tc string
             # if tc_name_str is a questboss
             if qboss:
                 rootclass = tc_name_str if TCDICT[tc_name_str]['Unique'] else tc_name_str1      # if Unique qual values are in base TC, use it. else use 1st inner pick (duri - base)
             
             outcomes += [{'rolleditemtc': tc_name_during_pick, 'rootclass': rootclass}]
-
+            # question: are multiple gold drops allowed? I think so, they get added to a 'gold pile' in-game
     return outcomes
 
 
@@ -233,7 +271,10 @@ def get_mlvl(mon_str):
 
     mon_diffi = ('(' + mon_str.split(' (')[1]) if '(' in mon_str else ''  # '', '(N)', '(H)'
     mon_name = mon_name[0:-1] if mon_name.endswith('q') else mon_name
-    mlvl = int(MONSTATSDICT[mon_name]['Level'+mon_diffi])
+    if mon_name.lower().startswith('countess'):  # account for monsters not in monstats.txt
+        mlvl = int(MONSTATSDICT_EXTRA['countess']['Level'+mon_diffi])
+    else:
+        mlvl = int(MONSTATSDICT[mon_name]['Level'+mon_diffi])
 
     return mlvl
 
