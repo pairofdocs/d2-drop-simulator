@@ -41,7 +41,7 @@ The `Seed` text input field allows setting a random number generator seed (an in
 
 
 ### Modifying Drop Rates
-Modding the drop rates can be done through the data files in `data-113d/`. For example: Meph's drop treasure classes and item probabilities can be edited on line 692 in [TreasureClassEx.txt](https://github.com/pairofdocs/d2-drop-simulator/blob/master/data-113d/TreasureClassEx.txt#L692). Once edited, restart dropsim.exe and test.
+Modding the drop rates can be done through the data files in `data-113d/`. For example: Meph's drop treasure classes and item probabilities can be edited on line 692 in [TreasureClassEx.txt](https://github.com/pairofdocs/d2-drop-simulator/blob/master/data-113d/TreasureClassEx.txt#L692). Once edited, restart dropsim.exe and test. The Phrozen Keep has this great [guide](https://d2mods.info/forum/kb/viewarticle?a=368) for TreasureClassEx.txt.
 
 
 ### Credits and Tools
