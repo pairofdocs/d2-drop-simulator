@@ -1,9 +1,9 @@
 ## Diablo 2 / D2R Bossq and Monster Drop Simulator ![Pyinstaller workflow](https://github.com/pairofdocs/d2-drop-simulator/actions/workflows/main.yaml/badge.svg)
 
-The drop simulator uses item type, quality generating functions and data files from D2 (TreasureClassEx.txt, ItemRatio.txt, ...) to reproduce the game's random loot drop mechanic. Quest bosses and other units (cows, ...) are available.  
-The code is open source and available [here](https://github.com/pairofdocs/d2-drop-simulator/blob/master/dropsim.py)  
-The app is: `dropsim.exe`  
-To play, download the zip [here](https://github.com/pairofdocs/d2-drop-simulator/archive/refs/heads/master.zip) and double click `dropsim.exe`
+The drop simulator uses item type and quality generating functions and data files from D2 (TreasureClassEx.txt, ItemRatio.txt, ...) to reproduce the game's random loot drop mechanic. Quest bosses and other units like Cows, Countess, Council are available.  
+- The code is open source and available [here](https://github.com/search?q=repo%3Apairofdocs%2Fd2-drop-simulator+language%3APython&type=Code)  
+- To play, download the zip [here](https://github.com/pairofdocs/d2-drop-simulator/archive/refs/heads/master.zip) extract and double click `dropsim.exe`
+- Note: Windows will complain that the app is not signed by a verified source the first time it's launched. I click on "Show more" then "Run anyway"
 
 ![App window with andy](./img/andyq_drop_bckgrd.jpg)
 
