@@ -268,6 +268,8 @@ def get_mlvl(mon_str):
         mon_name = 'baalcrab'
     elif mon_name[0:3] == 'cow':    # account for 'Cow King' if he's added to the tclist
         mon_name = 'hellbovine'
+    elif mon_name[0:7] == 'council':
+        mon_name = 'councilmember1'
 
     mon_diffi = ('(' + mon_str.split(' (')[1]) if '(' in mon_str else ''  # '', '(N)', '(H)'
     mon_name = mon_name[0:-1] if mon_name.endswith('q') else mon_name
