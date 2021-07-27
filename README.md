@@ -1,7 +1,7 @@
 ## Diablo 2 / D2R Bossq and Monster Drop Simulator ![Pyinstaller workflow](https://github.com/pairofdocs/d2-drop-simulator/actions/workflows/main.yaml/badge.svg)
 
 The drop simulator uses item type and quality generating functions and data files from D2 (TreasureClassEx.txt, ItemRatio.txt, ...) to reproduce the game's random loot drop mechanic. Quest bosses and other units like Cows, Countess, Council are available.  
-- The code is open source and available [here](https://github.com/search?q=repo%3Apairofdocs%2Fd2-drop-simulator+language%3APython&type=Code)  
+- The code is open source and available [here](https://github.com/search?q=repo%3Apairofdocs%2Fd2-drop-simulator+language%3APython&type=Code)
 - To play, download the zip [here](https://github.com/pairofdocs/d2-drop-simulator/archive/refs/heads/master.zip) extract and double click `dropsim.exe`
 - Note: Windows will complain that the app is not signed by a verified source the first time it's launched. I click on "Show more" then "Run anyway"
 
@@ -38,6 +38,10 @@ To use one of these sound files as the app's drop sound, rename the file to `dro
 
 ### Random Seed
 The `Seed` text input field allows setting a random number generator seed (an integer value) so that drops for a series of runs can be reproduced. The seed can only be set once for the duration of the app. If another seed is wanted the app has to be restarted.
+
+
+### Modifying Drop Rates
+Modding the drop rates can be done through the data files in `data-113d/`. For example: Meph's drop treasure classes and item probabilities can be edited on line 692 in [TreasureClassEx.txt](https://github.com/pairofdocs/d2-drop-simulator/blob/master/data-113d/TreasureClassEx.txt#L692). Once edited, restart dropsim.exe and test.
 
 
 ### Credits and Tools
