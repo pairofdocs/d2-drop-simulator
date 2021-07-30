@@ -66,7 +66,7 @@ load_csv_to_dict(filepath, MISCDICT, 'name')
 
 # read itemtypes csv into dictionary
 filepath = "data-113d/ItemTypes.txt"
-load_csv_to_dict(filepath, ITEMTYPESDICT, 'ItemType')
+load_csv_to_dict(filepath, ITEMTYPESDICT, 'Code')  # index by 'Code' so I can reference ITEMTYPESDICT['Code']
 
 # read monstats csv into dictionary
 filepath = "data-113d/monstats.txt"
@@ -122,10 +122,10 @@ def one_roll_from_tc(tc_name_str, players_str):
     if rowdict['NoDrop']:
         nodrop_orig = int(rowdict['NoDrop'])
         sumprobs = sum(probs)
-        probs_and_nd = nodrop_orig + sumprobs
-        nodrop_final = (((nodrop_orig/probs_and_nd)**nd_exp)/(1-(nodrop_orig/probs_and_nd)**nd_exp))*sumprobs + 0.01
-        
-        items, probs = items + [''], probs + [int(nodrop_final)]
+        ratio = (nodrop_orig/(nodrop_orig + sumprobs))**nd_exp
+        nodrop_final = ((ratio)/(1-ratio))*sumprobs
+        # do the dropcalcs take int() here? this could lead to diff avg drop %s, diff item drop %s.  item generation tutorial rounds 
+        items, probs = items + [''], probs + [round(nodrop_final)]
 
     # choice from a list with weighted probability
     outcome = random.choices(items, weights=probs, k=1)[0]
@@ -154,9 +154,9 @@ def final_rolls_from_tc(tc_name_str, players_str, seed_str):
     qboss = tc_name_str.split('(')[0].rstrip() in ['Andarielq', 'Durielq', 'Mephistoq', 'Diabloq', 'Baalq']
     
     outcomes = []         # store itemTC and TC class.  Needed for keeping the uni/set/rare mf values
-    rootpicknum = TCDICT[tc_name_str]['Picks']
+    rootpicknum = int(TCDICT[tc_name_str]['Picks'])
     
-    if int(rootpicknum) < 0:
+    if rootpicknum < 0:
         # get inner TCs and probNums then roll in order  [TC1, TC1, TC2, TC2] and append to outcomes
         innertcs, rollnum, rollseq = [], [], []
         for k,v in TCDICT[tc_name_str].items():
@@ -167,7 +167,7 @@ def final_rolls_from_tc(tc_name_str, players_str, seed_str):
         # assemble sequence of TCs
         for i in range(len(innertcs)):
             rollseq += rollnum[i]*[innertcs[i]]   # ['Countess Item', 'Countess Rune']
-        for tc_roll in rollseq:
+        for tc_roll in rollseq[0:abs(rootpicknum)]:     # champs always drop 2 pots (Act x Cpot x gives 2),   uniques 4 pots (pick=-3)
             if len(outcomes) < 6:
                 outcomes += nested_rolls_in_tc(tc_roll, players_str, qboss, positive_picks=False, neg_root_tc=tc_name_str)
         outcomes = outcomes[0:6] # take the first 6, remove any extra drops 
@@ -231,12 +231,17 @@ def roll_from_armo_weap_lvl(item_str):
         itemdict = WEAPDICT
     lvl = int(item_str[4:])
     items, probs, levels, types = [], [], [], []
+    # probability -> itemtypes.txt rarity.  3 for axe.  1 for staves, ...   use ITEMTYPESDICT
     for k,v in itemdict.items():
         if v['level'] and (lvl-3 < int(v['level']) <= lvl):
             items.append(v['name'])
-            # account for rarity = '' in data.  probability is 1/rarity
-            rarity = int(v['rarity']) if v['rarity'] else 1
-            probs.append(1/rarity)
+            # account for rarity = '' in data.  weapons.txt rarity is for chests.  look at itemtypes.txt
+            try:
+                rarity = int(ITEMTYPESDICT[v['type']]['Rarity'])  # e.g [3, 3, 3, 3, 3, 3, 1, 3, 3, 2, 1] for 'weap09'  axe-3, wristblade-2, orb-1
+            except:
+                rarity = 3  # default to 3 for normal (non class specific items)
+                # print('Rarity not found in ITEMTYPEDICT')
+            probs.append(rarity)
             levels.append(v['level'])
             types.append(v['type'])
     
@@ -327,11 +332,8 @@ def is_class_specific(type_str):
     class specific -- non-empty column "class" in ItemTypes.txt
     is_class_specific('abow') --> True
     """
-    out = False
-    for row in ITEMTYPESDICT.values():
-        if row['Code'] == type_str and row['Class']:
-            out = True
-    return out
+    class_str = ITEMTYPESDICT[type_str]['Class']
+    return bool(class_str)
 
 
 def check_uni_or_set(name_str, level_str, is_class_spec, mlvl_int, mon_str, mf_str='0', qual_type='uni'):
