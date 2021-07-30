@@ -11,21 +11,23 @@ logging.basicConfig(filename='session.txt', filemode='w', format='%(message)s', 
 
 
 DIFFICULTIES = {'Normal': '', 'Nightmare': ' (N)', 'Hell': ' (H)'}
-TCNames = ['Andariel', 'Duriel', 'Mephisto', 'Diablo', 'Baal', 'Cow', 'Countess']  # can add Council, Pindle, Eldrich
+TCNames = ['Andariel', 'Duriel', 'Mephisto', 'Diablo', 'Baal', 'Cow', 'Countess', 'Council']  # can add Pindle, Eldrich
 TCPicks = {TCNames[0]: 7,
            TCNames[1]: 5,
            TCNames[2]: 7,
            TCNames[3]: 7,
            TCNames[4]: 7,  # this data is from TreasureClassEx.txt
            TCNames[5]: 1,
-           TCNames[6]: 1}  # Countess. pick 1 for negative pickNum, logic in data_util reads -pickNum and outputs list of outcomes}
+           TCNames[6]: 1,  # Countess. pick 1 for negative pickNum, logic in data_util reads -pickNum and outputs list of outcomes}
+           TCNames[7]: 3}  # Trav council.  councilmember2 in monstats.txt
 BOSS_IMGS = {TCNames[0]: "./img/andy-d2r-resize.png",
              TCNames[1]: "./img/duri-d2r-resize2.png",
              TCNames[2]: "./img/meph-d2r-resize2.png",
              TCNames[3]: "./img/diab-d2r-resize2.png",
              TCNames[4]: "./img/arreat-d2r-resize2.png",
              TCNames[5]: "./img/cowlvl-d2r-resize2.png",
-             TCNames[6]: "./img/countess-d2r-resize2.png"}
+             TCNames[6]: "./img/countess-d2r-resize2.png",
+             TCNames[7]: "./img/council-d2r-resize2.png"}
              # Need an HD baal pic. use Arreat summit image?
 
 # root window
