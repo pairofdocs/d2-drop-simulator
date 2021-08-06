@@ -4,6 +4,7 @@ The drop simulator uses item type and quality generating functions and data file
 - The code is open source and available [here](https://github.com/search?q=repo%3Apairofdocs%2Fd2-drop-simulator+language%3APython&type=Code)
 - To play, download the zip [here](https://github.com/pairofdocs/d2-drop-simulator/archive/refs/heads/master.zip) extract and double click `dropsim.exe`
 - Note: Windows will complain that the app is not signed by a verified source the first time it's launched. I click on "Show more" then "Run anyway"
+- An online drop simulator can be used here: https://pairofdocs.github.io/d2-dropsim-web/
 
 ![App window with andy](./img/andyq_drop_bckgrd.jpg)
 
