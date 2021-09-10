@@ -22,7 +22,6 @@ Vampgaze, Duriels, Skullders?
 
 
 ### Todos
-- Add Baal image
 - Enable/disable check for same unique per run
 - Ethereal status
 
